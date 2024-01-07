@@ -7,7 +7,7 @@ export default function Welcome() {
         <span
           className={`mx-auto animate-tracking-out-expand-fwd animation-delay-1300`}
         >
-          SHUNNOSUKE OTAs
+          SHUNNOSUKE OTA
         </span>
       </h1>
     </div>
