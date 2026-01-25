@@ -27,6 +27,14 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      - name: Debug list out
+        run: |
+          pwd
+          ls -la
+          ls -la out || true
+          find out -maxdepth 2 -type f | sed -n '1,200p'
+
+
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::479891288832:role/github-actions-s3-deploy
