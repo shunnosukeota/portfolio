@@ -1,0 +1,28 @@
+
+@tailwind components;
+@tailwind utilities;
+
+.text {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0%;
+    height: 2px;
+    background-color: black;
+    transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.text:hover .line {
+    width: 100%; /* ホバー時に横に広がる */
+}  
+.text.clicked .line {
+    width: 100%; /* クリック時に横に広がる */    
+}
+

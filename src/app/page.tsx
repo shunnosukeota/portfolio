@@ -1,78 +1,82 @@
-import Image from "next/image";
-import Welcome from "./components/Welcome";
-import Logo from "./components/Logo";
+'use client';
+
 import Link from 'next/link';
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Client from "./client";
+import { useEffect, useRef } from 'react';
+import Logo from './components/Logo';
+import About from './components/about';
+import Works from './components/works';
+import Skills from './components/skills';
+import Contact from './components/contact';
 
-const sleep = (msec: number) => new Promise((resolve) => setTimeout(resolve, msec));
+const MENU_ITEMS = ['About', 'Works', 'Skills', 'Contact'];
 
-export default async function Home() {
-  await sleep(2700);
+export default function Home() {
+  const componentRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-slide-up');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px',
+      }
+    );
+
+    componentRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      componentRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, []);
+
   return (
     <>
-      <main className="animate-fade-in flex min-h-screen flex-col items-center justify-between">
-        <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex pt-24">
-          <Header />
-        </div>
+      <div>
+        <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex pt-20"></div>
         <Logo />
-        <div className="mb-8 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-          <Link href='/About' >a</Link>
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:dark:bg-neutral-800/30"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2
-              className={`animate-tracking-in-expand mb-3 text-2xl font-semibold`}
-            >
-              <span className="inline-block mr-1 transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                &gt;
-              </span>
-              Works{" "}
-            </h2>
-            <p className={`m-auto max-w-[30ch] text-sm opacity-50`}>
-              Introduce the work and works that SHUNNOSUKE OTA has done so far.
-            </p>
-          </a>
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:dark:bg-neutral-800/30"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={`mb-3 text-2xl font-semibold`}>
-              <span className="inline-block mr-1 transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                &gt;
-              </span>
-              Skils{" "}
-            </h2>
-            <p className={`m-auto max-w-[30ch] text-sm opacity-50`}>
-              List all the skills that SHUNNOSUKE OTA has. It is divided into
-              levels.
-            </p>
-          </a>
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:dark:bg-neutral-800/30"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={`mb-3 text-2xl font-semibold`}>
-              <span className="inline-block mr-1 transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                &gt;
-              </span>
-              Hoby{" "}
-            </h2>
-            <p className={`m-auto max-w-[30ch] text-sm opacity-50`}>
-              Instantly deploy your Next.js site to a shareable URL with Vercel.
-            </p>
-          </a>
-          <Footer />
-        </div>
-      </main>
+        <main className="m-auto mt-12 mb-8 lg:grid w-[85vw] lg:w-[75vw] lg:mb-0 text-left">
+          {MENU_ITEMS.map((item, index) => {
+            const isContact = item === 'Contact';
+            const Component = item === 'About' ? About : item === 'Works' ? Works : item === 'Skills' ? Skills : item === 'Contact' ? Contact : null;
+
+            return (
+              <div 
+                key={item} 
+                ref={(el) => (componentRefs.current[index] = el)}
+                className={`${item === 'About' ? 'mt-10' : ''} component shadow-2xl opacity-0`}
+              >
+                <h2 className="animate-tracking-in-expand mb-3 text-5xl lg:text-8xl">
+                  {isContact ? item : <Link href={`/${item.toLowerCase()}`} rel="noopener noreferrer" className="hover:opacity-30 transition-all duration-500">{item}</Link>}
+                </h2>
+
+                {/* Display corresponding component */}
+                {Component && <Component />}
+                
+                {/* Link for non-contact items */}
+                {!isContact && (
+                  <Link
+                    href={`/${item.toLowerCase()}`}
+                    rel="noopener noreferrer"
+                    className="w-fit opacity-70 text-2xl border-b-2 border-black hover:opacity-30 hover:border-transparent transition-all duration-500"
+                  >
+                    Go {item}
+                  </Link>
+                )}
+              </div>
+            );
+          })}
+        </main>
+      </div>
     </>
   );
 }

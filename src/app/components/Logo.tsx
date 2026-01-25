@@ -1,9 +1,9 @@
-import SummaryOta from "./SummaryOta";
+import Summary from "./Summary";
 
-export default function Welcome() {
+export default async function Welcome() {
   return (
-    <div className="h-60 w-full justify-center">
-      <div className="lines absolute -z-10">
+    <div className="w-full justify-center">
+      <div className="lines absolute -z-10 hidden">
         <div className="line"></div>
         <div className="line"></div>
         <div className="line"></div>
@@ -18,22 +18,26 @@ export default function Welcome() {
         <div className="line hidden lg:block"></div>
       </div>
       <div className="text-center">
-        <p className="logo wave text-[2.7rem] md:text-[4.5rem] lg:text-[6rem]">
-          <span>S</span>
-          <span>H</span>
-          <span>U</span>
-          <span>N</span>
-          <span>N</span>
-          <span>O</span>
-          <span>S</span>
-          <span>U</span>
-          <span>K</span>
-          <span>E</span>
-          <span className="ml-2 md:ml-4 lg:ml-6">O</span>
-          <span>T</span>
-          <span>A</span>
+        <p className="logo">
+          <span className="inline-block -mb-[3vw]"><img src="/logo.svg" alt="Stendear" className="" /></span>
         </p>
-        <SummaryOta />
+        <div className="bigTypo">
+          <h1 className="centered big-title back moving">
+            <span>Stand Endear</span>
+            <span>&nbsp;—&nbsp;</span>
+            <span>Stand Endear</span>
+            <span>&nbsp;—&nbsp;</span>
+          </h1>
+          <div className="centered clipping-container">
+            <h1 className="centered big-title front moving">
+            <span>Stand Endear</span>
+            <span>&nbsp;—&nbsp;</span>
+            <span>Stand Endear</span>
+            <span>&nbsp;—&nbsp;</span>
+            </h1>
+          </div>
+        </div>
+        <Summary />
       </div>
     </div>
   );
