@@ -40,6 +40,7 @@ export default function About() {
             </h3>
             <div>
               <dt>居住地:</dt><dd>宮城県仙台市</dd>
+              <dt>MBTI:</dt><dd>ENTP</dd>
               <dt>投打:</dt><dd>右投右打</dd>
               <dt>身長体重:</dt><dd>171cm/64kg</dd>
               <dt>趣味:</dt>
