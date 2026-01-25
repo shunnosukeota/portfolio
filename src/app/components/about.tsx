@@ -5,7 +5,7 @@ export default async function About() {
         <>
             <p className={`max-w-[30ch] text-lg lg:text-3xl mt-4 lg:mt-12 leading-normal`}>
                 Stand × Endear<br />
-                愛されるために立つ。
+                信念に立ち、愛される。
             </p>
             <p className={`opacity-60 font-mono mt-4 lg:mt-10 mb-8 max-lg:text-sm`}>
                 Stendear(ステンディア)は、<br />
