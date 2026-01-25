@@ -54,6 +54,11 @@ export default function About() {
                     {CONTACT_INFO.email}
                   </a>
                 </dd>
+                <dd>
+                  <a href={`line:${CONTACT_INFO.line}`} className="underline hover:opacity-30 duration-500">
+                    LINE
+                  </a>
+                </dd>
               {/* ブログ廃止中
               <dt>ブログ:</dt>
                 <dd>
