@@ -1,107 +1,123 @@
-import Link from 'next/link';
-import { CONTACT_INFO } from '../constants/contact';
+import type { Metadata } from 'next'
+import { CAREER, PROFILE_FACTS } from '@/content/career'
+import { CERTIFICATIONS } from '@/content/certifications'
+import { SITE } from '@/content/site'
+import { pageMetadata, personJsonLd, profilePageJsonLd } from '@/lib/seo'
+import JsonLd from '@/components/ui/JsonLd'
+import Picture from '@/components/ui/Picture'
+import SectionHeading from '@/components/ui/SectionHeading'
+import Reveal from '@/components/ui/Reveal'
+import CertBadge from '@/components/ui/CertBadge'
+import ContactCta from '@/components/sections/ContactCta'
 
-export default function About() {
-  const birthYear = 2001;
-  const birthMonth = 10; // 誕生月（0-11で指定、例: 0=1月）
-  const birthDay = 24; // 誕生日
-  
-  const calculateAge = () => {
-    const today = new Date();
-    const birthDate = new Date(birthYear, birthMonth, birthDay);
-    let age = today.getFullYear() - birthYear;
-    const monthDiff = today.getMonth() - birthMonth;
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDay)) {
-      age--;
-    }
-    return age;
-  };
+export const metadata: Metadata = pageMetadata({
+  title: 'About — 太田駿之介のプロフィールと経歴',
+  description:
+    '宮城県仙台市のシステムエンジニア／データエンジニア 太田駿之介のプロフィール。高専（建築）から建設、IT、ECのプロジェクトリーダー、データ基盤へ。ブランド Stendear の由来と経歴を紹介します。',
+  path: '/about',
+  type: 'article',
+})
 
+export default function AboutPage() {
+  const { owner, brand } = SITE
   return (
-    <div className="about-page w-[90vw] lg:w-[70vw] mt-[8rem]">
-      <div className="animate-fade-in max-lg:fixed absolute inset-0 bg-[url('/about_main2.jpg')] bg-cover max-md:bg-[55%_0%] lg:bg-[20%_0%] z-0"></div>
+    <>
+      <JsonLd data={[personJsonLd, { ...profilePageJsonLd, url: `${SITE.url}/about` }]} />
+      <section className="py-16 lg:py-24">
+        <div className="mx-auto w-full max-w-content px-6 lg:px-16">
+          <SectionHeading
+            level="h1"
+            id="about-heading"
+            label="About"
+            title="建築からITへ。現場と設計の両方を知っている。"
+            lead="高専で建築を学び、施工の現場を経てIT業界へ。ECのプロジェクトリーダーを務めたのち、データエンジニアへ転身。「作る」だけでなく「使われ続ける」ことまで設計するのが、仕事の軸です。"
+          />
 
-      <div className="relative z-10 text-white p-6">
-        <h2 className={`animate-fade-in animation-delay-1000 m-auto md:mb-40 max-md:mb-20 text-5xl lg:text-8xl`}>
-            About{" "}
-        </h2>
-        
-        <div className="details flex justify-between lg:w-1/2 max-md:text-sm">
+          <div className="grid gap-12 lg:grid-cols-12">
+            <Reveal className="lg:col-span-5">
+              <Picture
+                src="/images/about/portrait-env"
+                alt={`${owner.name}。打ち合わせ中のポートレート`}
+                width={1200}
+                height={800}
+                widths={[800]}
+                sizes="(min-width: 1024px) 480px, 100vw"
+                priority
+                className="overflow-hidden rounded-sm border border-line"
+                imgClassName="aspect-3/2 w-full object-cover"
+              />
+              <dl className="mt-8 divide-y divide-line border-y border-line text-sm">
+                <div className="grid grid-cols-timeline gap-4 py-3">
+                  <dt className="text-muted">名前</dt>
+                  <dd>
+                    {owner.name} <span className="ml-2 font-mono text-xs text-muted">{owner.nameEn}</span>
+                  </dd>
+                </div>
+                <div className="grid grid-cols-timeline gap-4 py-3">
+                  <dt className="text-muted">肩書き</dt>
+                  <dd>{owner.title}</dd>
+                </div>
+                {PROFILE_FACTS.map((f) => (
+                  <div key={f.label} className="grid grid-cols-timeline gap-4 py-3">
+                    <dt className="text-muted">{f.label}</dt>
+                    <dd>{f.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
 
-          <div className="group animate-fade-in animation-delay-1300">
-            <h2 className="mb-3 text-2xl">
-              太田 駿之介 ({calculateAge()}歳)
-            </h2>
-            <h2 className="mb-1 text-2xl">
-              SHUNNOSUKE OTA
-            </h2>
-            <h3 className="mb-3 text-xl">
-              システムエンジニア/データエンジニア
-            </h3>
-            <div>
-              <dt>居住地:</dt><dd>宮城県仙台市</dd>
-              <dt>MBTI:</dt><dd>ENTP</dd>
-              <dt>投打:</dt><dd>右投右打</dd>
-              <dt>身長体重:</dt><dd>171cm/64kg</dd>
-              <dt>趣味:</dt>
-                <dd>フルマラソン</dd>
-                <dd>UVERworld</dd>
-                <dd>野球観戦</dd>
-                <dd></dd>
-              <dt>お問い合わせ:</dt>
-                <dd>
-                  <a href={`mailto:${CONTACT_INFO.email}`} className="underline hover:opacity-30 duration-500">
-                    {CONTACT_INFO.email}
-                  </a>
-                </dd>
-                <dd>
-                  <a href={`line:${CONTACT_INFO.line}`} className="underline hover:opacity-30 duration-500">
-                    LINE
-                  </a>
-                </dd>
-              {/* ブログ廃止中
-              <dt>ブログ:</dt>
-                <dd>
-                  <a href="https://kosennoshun.com/" target="_blank" className='underline hover:opacity-30 duration-500'>
-                    Shun Page
-                  </a>
-                </dd>
-              */}
-              <dt>SNS:</dt>
-                <dd>
-                  <a href="https://www.instagram.com/shunnosukeshunnosukeshunnosuke/" target="_blank" className='underline hover:opacity-30 duration-500'>
-                  instagram
-                  </a>
-                </dd>
+            <div className="lg:col-span-6 lg:col-start-7">
+              <Reveal>
+                <h2 className="text-h3 font-medium">{brand.origin}</h2>
+                <p className="mt-4 max-w-prose text-md text-muted">
+                  {SITE.name}（ステンディア）は、{owner.name}が運営する個人の開発ブランドです。{brand.originNote}
+                  人のためであるという信念に立ち、長く愛され使われ続けるものを作る。その想いを名前に込めています。
+                </p>
+              </Reveal>
+
+              <Reveal className="mt-14" delay={60}>
+                <p className="label mb-6">Career</p>
+                <ol className="border-t border-line">
+                  {CAREER.map((c) => (
+                    <li key={c.period + c.title} className="grid gap-3 border-b border-line py-6 sm:grid-cols-timeline-wide sm:gap-6">
+                      <span className="font-mono text-xs text-muted">{c.period}</span>
+                      <div>
+                        <h3 className="text-lg font-medium">{c.title}</h3>
+                        <p className="mt-2 text-sm text-muted">{c.description}</p>
+                        {c.tags && (
+                          <ul className="mt-3 flex flex-wrap gap-1.5">
+                            {c.tags.map((t) => (
+                              <li key={t} className="tag">
+                                {t}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </Reveal>
+
+              <Reveal className="mt-14" delay={60}>
+                <p className="label mb-6">Certifications</p>
+                <ul className="grid gap-6 sm:grid-cols-2">
+                  {CERTIFICATIONS.map((c) => (
+                    <li key={c.id} className="flex items-start gap-4">
+                      <CertBadge cert={c} className="h-14 w-14" />
+                      <div>
+                        <p className="text-sm font-medium leading-snug">{c.name}</p>
+                        <p className="mt-1 font-mono text-xs text-muted">{c.issuer}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
             </div>
-
           </div>
-
         </div>
-
-        <div className="group animate-fade-in animation-delay-1300 mt-10 max-md:text-sm">
-          <p className='w-fit bg-black bg-opacity-20 p-[0.5rem]'>
-            高専の建築デザインコースを卒業後、施工業界にて半年間勤務。<br />
-            趣味でブログとアプリの開発後、IT業界へ転職し、<br />
-            ECサイト開発のプロジェクトリーダーに就任。<br />
-            顧客折衝を中心に、提案・要件定義から設計、開発、<br />
-            テストまでプロジェクト全工程を経験。<br /><br />
-            現在はデータエンジニアへ転身し、<br />
-            データ基盤構築や分析環境の整備に従事。<br />
-            EC・CMSサイト構築、データエンジニアリング、<br />
-            クラウドサーバーの管理から、<br />
-            cssの修正や軽微な機能改修まで幅広く経験あり。<br /><br />
-            ブランドStendearのアイコンである
-            「S」の中心には、<br />一貫した軸、信念があります。<br />
-            人のために、人から愛されるように、<br />
-            信念を持って立ちます。<br />
-            Stendearにはそんな想いが込められています。
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-    
-  );
+      </section>
+      <ContactCta heading="経歴の詳細や稼働条件は、お気軽にお尋ねください。" />
+    </>
+  )
 }
