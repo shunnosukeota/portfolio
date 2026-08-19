@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { CAREER, PROFILE_FACTS } from '@/content/career'
-import { CERTIFICATIONS } from '@/content/certifications'
+import { CAREER, PERSONAL_FACTS, PROFILE_FACTS } from '@/content/career'
+import { CERTIFICATIONS, OTHER_CREDENTIALS } from '@/content/certifications'
 import { SITE } from '@/content/site'
 import { pageMetadata, personJsonLd, profilePageJsonLd } from '@/lib/seo'
 import JsonLd from '@/components/ui/JsonLd'
@@ -13,7 +13,7 @@ import ContactCta from '@/components/sections/ContactCta'
 export const metadata: Metadata = pageMetadata({
   title: 'About — 太田駿之介のプロフィールと経歴',
   description:
-    '宮城県仙台市のシステムエンジニア／データエンジニア 太田駿之介のプロフィール。高専（建築）から建設、IT、ECのプロジェクトリーダー、データ基盤へ。ブランド Stendear の由来と経歴を紹介します。',
+    '宮城県仙台市のシステムエンジニア／データエンジニア 太田駿之介のプロフィール。高専（建築）から建設、IT（ECのPL/PM）、外資系コンサルティングファームのデータエンジニアへ。ブランド Stendear の由来、経歴、資格、そして少しの遊び心。',
   path: '/about',
   type: 'article',
 })
@@ -30,7 +30,7 @@ export default function AboutPage() {
             id="about-heading"
             label="About"
             title="建築からITへ。現場と設計の両方を知っている。"
-            lead="高専で建築を学び、施工の現場を経てIT業界へ。ECのプロジェクトリーダーを務めたのち、データエンジニアへ転身。「作る」だけでなく「使われ続ける」ことまで設計するのが、仕事の軸です。"
+            lead="高専で建築を学び、施工の現場を経てIT業界へ。SIer でECのプロジェクトリーダー／マネージャーを務めたのち、現在は外資系コンサルティングファームでデータエンジニアリングに携わりながら、Stendear として受託開発・制作を行っています。「作る」だけでなく「使われ続ける」ことまで設計するのが、仕事の軸です。"
           />
 
           <div className="grid gap-12 lg:grid-cols-12">
@@ -64,18 +64,18 @@ export default function AboutPage() {
                   </div>
                 ))}
               </dl>
-            </Reveal>
 
-            <div className="lg:col-span-6 lg:col-start-7">
-              <Reveal>
+              <div className="mt-10 border-t border-line pt-8">
                 <h2 className="text-h3 font-medium">{brand.origin}</h2>
                 <p className="mt-4 max-w-prose text-md text-muted">
                   {SITE.name}（ステンディア）は、{owner.name}が運営する個人の開発ブランドです。{brand.originNote}
                   人のためであるという信念に立ち、長く愛され使われ続けるものを作る。その想いを名前に込めています。
                 </p>
-              </Reveal>
+              </div>
+            </Reveal>
 
-              <Reveal className="mt-14" delay={60}>
+            <div className="lg:col-span-6 lg:col-start-7">
+              <Reveal>
                 <p className="label mb-6">Career</p>
                 <ol className="border-t border-line">
                   {CAREER.map((c) => (
@@ -83,6 +83,7 @@ export default function AboutPage() {
                       <span className="font-mono text-xs text-muted">{c.period}</span>
                       <div>
                         <h3 className="text-lg font-medium">{c.title}</h3>
+                        {c.org && <p className="mt-1 font-mono text-xs text-muted">{c.org}</p>}
                         <p className="mt-2 text-sm text-muted">{c.description}</p>
                         {c.tags && (
                           <ul className="mt-3 flex flex-wrap gap-1.5">
@@ -107,11 +108,54 @@ export default function AboutPage() {
                       <CertBadge cert={c} className="h-14 w-14" />
                       <div>
                         <p className="text-sm font-medium leading-snug">{c.name}</p>
-                        <p className="mt-1 font-mono text-xs text-muted">{c.issuer}</p>
+                        <p className="mt-1 font-mono text-xs text-muted">
+                          {c.issuer} · {c.acquired}
+                        </p>
                       </div>
                     </li>
                   ))}
                 </ul>
+                <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-4 font-mono text-xs text-muted">
+                  {OTHER_CREDENTIALS.map((c) => (
+                    <li key={c.name}>
+                      {c.name} <span aria-hidden="true">·</span> {c.acquired}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </div>
+
+          {/* Personal — 少しの遊び心 */}
+          <div className="mt-20 border-t border-line pt-16 lg:mt-32 lg:pt-20">
+            <div className="grid gap-10 lg:grid-cols-12">
+              <Reveal className="lg:col-span-7">
+                <p className="label mb-4">Personal</p>
+                <h2 className="text-h2 font-medium text-balance">仕事の外側も、少しだけ。</h2>
+                <p className="mt-5 max-w-prose text-md text-muted">
+                  毎朝走って、週末は野球を観て、移動中は UVERworld。「やって確かめる」が好きで、未知の領域ほど燃えるタイプです。
+                </p>
+                <dl className="mt-8 grid gap-x-8 gap-y-0 sm:grid-cols-2">
+                  {PERSONAL_FACTS.map((f) => (
+                    <div key={f.label} className="grid grid-cols-timeline gap-4 border-b border-line py-3 text-sm">
+                      <dt className="font-mono text-xs text-muted">{f.label}</dt>
+                      <dd>{f.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
+              <Reveal className="lg:col-span-4 lg:col-start-9" delay={60}>
+                <Picture
+                  src="/images/about/marathon-2025"
+                  alt="東京レガシーハーフ 2025 完走後、メダルとタオルを手にした太田駿之介"
+                  width={900}
+                  height={1200}
+                  widths={[600]}
+                  sizes="(min-width: 1024px) 360px, 100vw"
+                  className="overflow-hidden rounded-sm border border-line"
+                  imgClassName="aspect-3/4 w-full object-cover"
+                />
+                <p className="mt-3 font-mono text-xs text-muted">TOKYO LEGACY HALF 2025 — 完走</p>
               </Reveal>
             </div>
           </div>

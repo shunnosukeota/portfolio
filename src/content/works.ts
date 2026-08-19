@@ -2,12 +2,14 @@
  * Works（実績）。
  * - featured: true のものがトップページの Selected Works に表示されます（表示順は配列順）。
  * - NDA 案件は client を匿名化しつつ規模感を書きます。
- * - thumbnail は画像（images/works/{slug}.{avif,webp}）か、SVG 図版（diagram）のどちらか。
- * TODO: 成果（outcomes）の数値は可能な範囲で実数に更新してください。
+ * - thumbnail は画像（images/works/{slug}.{avif,webp,jpg}）か、SVG 図版（diagram）のどちらか。
+ * - gallery は詳細ページにのみ表示する追加画像（任意）。
  */
 export type WorkThumbnail =
   | { type: 'image'; src: string; alt: string; width: number; height: number }
   | { type: 'diagram'; id: 'apparel-ec' | 'data-platform'; alt: string }
+
+export type WorkImage = { src: string; alt: string; width: number; height: number; caption?: string }
 
 export type Work = {
   slug: string
@@ -28,35 +30,47 @@ export type Work = {
   url?: string
   credits?: { label: string; name: string; url?: string }[]
   thumbnail: WorkThumbnail
+  gallery?: WorkImage[]
 }
 
 export const WORKS: Work[] = [
   {
-    slug: 'apparel-ec',
-    title: '大手アパレルEC（NDA）の構築・改修・運用',
-    client: '大手アパレル企業 公式EC（NDA）',
-    category: 'EC構築・運用 / SFCC',
-    period: '約2年',
+    slug: 'sfcc-ec',
+    title: 'アパレル・ジュエリー等 4社のEC構築・改修・運用（SFCC）',
+    client: 'アパレル / ジュエリー / スポーツアパレル / 浄水器メーカー 各社の公式EC（NDA）',
+    category: 'EC構築・運用 / Salesforce Commerce Cloud',
+    period: '2年7ヶ月',
     year: '2023 – 2025',
     featured: true,
     nda: true,
     summary:
-      'Salesforce Commerce Cloud 上で稼働する大規模ECの機能改修・運用を、プロジェクトリーダーとして担当。顧客折衝から要件定義、設計、開発、テスト、リリースまで全工程を通しました。',
+      '一次請け SIer にて、Salesforce Commerce Cloud 上で稼働する 4 社のECサイトの新規構築・機能改修・保守運用を担当。入社半年でプロジェクトリーダーに就任し、以後はPL/PMとして提案・見積から要件定義、設計、開発、テスト、リリース、保守運用までを通しました。',
     challenge:
-      'セール・新作発売など負荷ピークが読める一方で、決済・ポイント・在庫など外部システム連携が多く、1つの改修が注文フロー全体に影響する。短いリリースサイクルの中で品質と速度を両立する必要があった。',
+      'セール・新作発売など負荷ピークが読める一方で、決済・ポイント・在庫・CRM など外部システム連携が多く、1つの改修が注文フロー全体に影響する。複数クライアントの改修と保守運用を 3〜4 名のチームで並行して回し、短いリリースサイクルの中で品質と納期を両立する必要があった。',
     role: [
-      'プロジェクトリーダー（顧客折衝・進行管理・見積）',
-      '要件定義・基本設計・詳細設計',
-      'SFRA ベースの機能開発、決済・外部API連携',
-      'プロモーション / カタログ設定、リリース・障害対応',
+      'プロジェクトリーダー / マネージャー（顧客折衝・提案・見積・進行管理・月次定例の進行）',
+      '要件定義・基本設計・詳細設計、クライアントとの設計書読み合わせ',
+      'SFRA ベースの機能開発、結合テスト仕様書の作成・実施、負荷テスト（JMeter on AWS）',
+      '決済（AmazonPay・PayPay・楽天ペイ・3Dセキュア）、店舗在庫 API、Yext、CRM（Marketing Cloud / Service Cloud / Data Cloud）連携',
+      '顧客管理・プロモーション設定などの日常運用、OMS 側保守の管理',
     ],
-    tech: ['Salesforce Commerce Cloud', 'SFRA', 'OCAPI / SCAPI', 'JavaScript', 'Jobs / Webhook', '決済代行連携'],
+    tech: [
+      'Salesforce Commerce Cloud',
+      'SFRA',
+      'JavaScript (Rhino)',
+      'OCAPI / SCAPI',
+      'AmazonPay / PayPay / 3D Secure',
+      'Marketing Cloud / Data Cloud',
+      'Go（データ移行ツール）',
+      'AWS / JMeter',
+    ],
     outcomes: [
-      '要件定義〜リリースまでを一貫して担当し、複数の改修案件を計画どおりに本番投入',
-      '注文・決済・配送までの業務フローを把握したうえで設計し、リリース後の手戻りを抑制',
-      '顧客との定例運営・見積・課題管理を担い、継続的な追加発注につながる信頼関係を構築',
+      '未経験入社から半年でプロジェクトリーダーに就任し、2年間で 4 業界・4 社のEC改修を並行してリード',
+      '新規構築（浄水器EC）はテスト・不具合修正を最小工数で完了し、ローンチ時の売上立ち上がりに貢献',
+      '要件定義段階で詳細を詰める運営により、PL 担当案件を納期遅延なく納品',
+      '保守運用の窓口を引き継ぎ、定例のファシリテーションと月次提案で契約工数の消化率を大幅に改善。継続受注につなげた',
     ],
-    scale: '開発チーム数名〜10名規模のPL。エンドユーザー向け公式ECサイト',
+    scale: '3〜4 名チームの PL/PM。4 社の公式ECを並行担当（うち 2 社の保守運用窓口）',
     thumbnail: {
       type: 'diagram',
       id: 'apparel-ec',
@@ -65,35 +79,86 @@ export const WORKS: Work[] = [
   },
   {
     slug: 'data-platform',
-    title: '事業会社のデータ基盤構築・ETL開発（NDA）',
-    client: '事業会社 データ分析基盤（NDA）',
-    category: 'データ基盤 / Snowflake・Databricks',
+    title: '製造ログを扱うデータ基盤の構築・拡張（AWS × Snowflake）',
+    client: 'ゲーム業界 事業会社（NDA）',
+    category: 'データ基盤 / Snowflake・AWS',
     period: '継続中',
     year: '2025 –',
     featured: true,
     nda: true,
     summary:
-      '複数の業務システムに散在するデータを収集・加工・蓄積し、分析に使える形に整備するデータ基盤の構築と ETL/ELT パイプライン開発を担当。',
+      '外資系コンサルティングファームの ITコンサルタントとして参画。AWS S3 に蓄積される製造ログを Snowflake へ連携する基盤の構築・拡張、AI を活用したメタデータ管理、CI/CD による自動化、Streamlit による業務自動化を担当しています。',
     challenge:
-      '部門ごとに異なるソース（基幹システム・SaaS・ファイル）からデータが届き、定義も粒度も揃っていない。手作業の集計に時間がかかり、分析に着手する前にデータ整備で消耗していた。',
+      'データ量・ソースが増え続ける中で、取り込み基盤の拡張と同時に、メタデータ（定義・タグ・リネージ）の整備と運用負荷の低減を進める必要があった。手作業の設定やドキュメント更新がボトルネックになっていた。',
     role: [
-      'データ基盤の設計（レイヤ構成・命名規約・権限設計）',
-      'ETL / ELT パイプライン開発と定期実行の自動化',
-      'データモデリング（分析用マート設計）',
-      '品質チェック・監視・運用ドキュメント整備',
+      'データマネジメントの運用フロー設計',
+      'AI モデルを用いたメタデータ管理（タグ伝播・セマンティックビュー自動生成）の提案書作成と実装',
+      'AWS・Snowflake・GitHub を連携させるインフラ設計・構築と CI/CD 化',
+      'Snowflake Streamlit による業務自動化アプリの開発',
+      'Snowflake 新機能の検証とナレッジ展開（Zenn 連載として公開）',
     ],
-    tech: ['Snowflake', 'Databricks', 'Python', 'SQL', 'Spark / Delta Lake', 'AWS'],
+    tech: ['Snowflake', 'AWS (S3 / IAM)', 'Python', 'SQL', 'Streamlit', 'GitHub Actions', 'Cortex AI'],
     outcomes: [
-      'ソースから分析マートまでの処理を自動化し、手作業の集計・再集計を削減',
-      'レイヤ構成と命名規約を統一し、新しいデータソースの追加手順を標準化',
-      '分析側がSQLだけで参照できるマートを整備し、データ準備の待ち時間を短縮',
+      '未経験領域ながら AWS / Snowflake / Databricks の認定資格を取得して短期間でキャッチアップし、要件定義から実装までを担当',
+      'AI を活用したメタデータ管理アーキテクチャを提案・実装し、将来の運用工数削減に寄与',
+      '取り組みを Zenn 連載「これからのメタデータ管理の話をしよう」として公開し、Snowflake ユーザーコミュニティ SnowVillage の配信で紹介',
     ],
-    scale: 'データエンジニアとして設計・開発を担当。複数部門が利用する全社横断の分析基盤',
+    scale: '全 10 名のプロジェクトにメンバーとして参画（提案・要件定義・開発）',
     thumbnail: {
       type: 'diagram',
       id: 'data-platform',
-      alt: '業務システム・SaaS・ファイルのデータを取り込み、Raw / Staging / Mart の3層で整備して BI に届けるデータフロー図',
+      alt: 'AWS S3 の製造ログ・業務システム・ファイルを Snowflake に取り込み、Raw / Staging / Mart の3層で整備して BI と Streamlit に届けるデータフロー図',
     },
+  },
+  {
+    slug: 'godai-flyer',
+    title: '足場工事会社の新サービス告知チラシ（A4 両面）',
+    client: '株式会社五大建設足場（宮城県東松島市）',
+    category: '広告制作 / チラシデザイン',
+    period: '約2週間',
+    year: '2026',
+    featured: true,
+    summary:
+      '足場工事会社が新たに始める「太陽光パネル洗浄・外壁洗浄」を住宅オーナーに知らせる A4 両面チラシを、構成・コピー・デザイン・入稿データまで一貫して制作。表面で「何を・いくらで」、裏面で「不安の解消」と役割を分け、問い合わせにつながる 1 枚にしました。',
+    challenge:
+      '新サービスの認知がゼロの状態で、価格への納得感と「訪問販売は不安」という住宅オーナーの心理的ハードルの両方を、紙 1 枚で越える必要があった。足場専門業者ならではの強み（高所の安全施工・自社施工）を短い言葉で伝えることも課題。',
+    role: [
+      '構成設計（表：訴求・料金・施工例・相談導線 ／ 裏：お困りごと・選ばれる理由・クーリングオフの説明）',
+      'キャッチコピー・本文コピーの作成',
+      'デザイン（写真選定・図版・配色・組版）',
+      '印刷用入稿データの作成と修正対応',
+    ],
+    tech: ['チラシ / フライヤー', 'A4 両面・フルカラー', 'コピーライティング', '印刷入稿データ'],
+    outcomes: [
+      '料金プラン・施工事例（Before / After）・無料相談の導線を表面に集約し、読み手が 10 秒で判断できる構成に',
+      '裏面でお困りごとチェックリスト → 選ばれる理由 → クーリングオフ制度の順に並べ、訪問販売への不安を先回りして解消',
+      'Instagram・公式サイトへの QR を配置し、紙からデジタルへの導線を確保',
+    ],
+    scale: '企画から入稿まで 1 名で担当',
+    url: 'https://www.godai-ashiba.co.jp/',
+    thumbnail: {
+      type: 'image',
+      src: '/images/works/godai-flyer',
+      alt: '五大建設足場の太陽光パネル洗浄・外壁洗浄チラシ。表面と裏面を並べたもの',
+      width: 1600,
+      height: 1000,
+    },
+    gallery: [
+      {
+        src: '/images/works/godai-flyer-front',
+        alt: 'チラシ表面。新サービス開始のお知らせ、太陽光パネル洗浄・外壁洗浄、料金プラン、本社施工例、無料相談の案内',
+        width: 1200,
+        height: 1697,
+        caption: '表面 — 訴求・料金・施工例・相談導線',
+      },
+      {
+        src: '/images/works/godai-flyer-back',
+        alt: 'チラシ裏面。こんなお困りごとはありませんか、足場のプロに任せる理由、訪問販売が不安な方へ、クーリングオフ制度について',
+        width: 1200,
+        height: 1697,
+        caption: '裏面 — お困りごと・選ばれる理由・安心の説明',
+      },
+    ],
   },
   {
     slug: 'drawers9',
@@ -124,7 +189,7 @@ export const WORKS: Work[] = [
     thumbnail: {
       type: 'image',
       src: '/images/works/drawers9',
-      alt: 'DRAWERS9 コーポレートサイトのトップページ。映像作品のサムネイルがグリッドで並ぶ',
+      alt: 'DRAWERS9 コーポレートサイトのトップページ。映像作品のキービジュアルが大きく表示されている',
       width: 1600,
       height: 1000,
     },
@@ -136,7 +201,7 @@ export const WORKS: Work[] = [
     category: 'Webアプリ開発 / Laravel・AWS',
     period: '約3ヶ月',
     year: '2022',
-    featured: true,
+    featured: false,
     summary:
       '受け取った・贈ったプレゼントを投稿し、相手・年齢・シーンから検索できる共有アプリ。企画からUI設計、実装、AWS へのデプロイまで一人で完結させた個人開発プロダクトです。',
     challenge:
@@ -169,10 +234,7 @@ export const WORKS: Work[] = [
       '個人ブランドサイトとして、低コスト・高速・高いセキュリティを両立しつつ、更新はコードを触らずに行えるようにしたい。',
     role: ['設計・実装・デザイン', 'AWS（S3 / CloudFront / IAM / OIDC）構築', 'GitHub Actions による自動デプロイ'],
     tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'AWS S3', 'CloudFront', 'GitHub Actions'],
-    outcomes: [
-      'サーバーレス配信で運用コストを最小化',
-      'push だけで本番反映されるデプロイ基盤を構築',
-    ],
+    outcomes: ['サーバーレス配信で運用コストを最小化', 'push だけで本番反映されるデプロイ基盤を構築'],
     url: 'https://stendear.com',
     thumbnail: {
       type: 'image',

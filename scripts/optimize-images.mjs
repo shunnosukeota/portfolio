@@ -4,7 +4,7 @@
  *   npm run images
  *
  * assets/originals/ の元画像から、public/images/ 配下に
- * AVIF / WebP / フォールバック(JPG|PNG) をグレースケールで書き出します。
+ * AVIF / WebP / フォールバック(JPG|PNG) を書き出します（色は元画像のまま）。
  * 生成物は git にコミットし、ビルド時には何もしません（ビルドを軽く・決定的に保つため）。
  */
 import sharp from 'sharp'
@@ -16,9 +16,12 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const SRC = path.join(ROOT, 'assets/originals')
 const OUT = path.join(ROOT, 'public')
 
-const AVIF = { quality: 55, effort: 6 }
-const WEBP = { quality: 78, effort: 6 }
-const JPG = { quality: 78, mozjpeg: true, progressive: true }
+const AVIF = { quality: 58, effort: 6 }
+const WEBP = { quality: 80, effort: 6 }
+const JPG = { quality: 80, mozjpeg: true, progressive: true }
+
+/** 余白付きサムネイルの台紙色（ライト UI と馴染む薄いグレー） */
+const MAT = '#ebebe9'
 
 const kb = (n) => `${(n / 1024).toFixed(1)}KB`
 
@@ -48,7 +51,7 @@ async function writeSet(pipeline, outBase, { fallback = 'jpg', widths = [] } = {
   }
 }
 
-/** 16:10 のサムネイルに統一（余白付き・グレースケール） */
+/** 16:10 のサムネイルに統一（必要なら余白付き） */
 async function thumbnail(srcFile, outBase, { position = 'top', pad = false, fit = 'cover' } = {}) {
   const W = 1600
   const H = 1000
@@ -56,48 +59,84 @@ async function thumbnail(srcFile, outBase, { position = 'top', pad = false, fit 
   let img
   if (pad) {
     // 案B：実画面を 16:10 でトリミングし、余白を付けて無地の面に配置
-    const inner = await src
-      .clone()
-      .resize({ width: 1360, height: 850, fit, position })
-      .grayscale()
-      .png()
-      .toBuffer()
+    const inner = await src.clone().resize({ width: 1360, height: 850, fit, position }).png().toBuffer()
     const m = await sharp(inner).metadata()
-    img = sharp({ create: { width: W, height: H, channels: 3, background: '#e9e9e7' } }).composite([
+    img = sharp({ create: { width: W, height: H, channels: 3, background: MAT } }).composite([
       { input: inner, left: Math.round((W - m.width) / 2), top: Math.round((H - m.height) / 2) },
     ])
   } else {
-    img = src.resize({ width: W, height: H, fit: 'cover', position }).grayscale()
+    img = src.resize({ width: W, height: H, fit: 'cover', position })
   }
   await writeSet(img, outBase, { widths: [800] })
 }
 
+/** 紙媒体（A4 両面）を 16:10 の台紙に 2 面並べる */
+async function printThumbnail(frontFile, backFile, outBase) {
+  const W = 1600
+  const H = 1000
+  const pageH = 860
+  const front = await sharp(path.join(SRC, frontFile)).resize({ height: pageH }).png().toBuffer()
+  const back = await sharp(path.join(SRC, backFile)).resize({ height: pageH }).png().toBuffer()
+  const fm = await sharp(front).metadata()
+  const bm = await sharp(back).metadata()
+  const gap = 48
+  const total = fm.width + gap + bm.width
+  const left = Math.round((W - total) / 2)
+  const top = Math.round((H - pageH) / 2)
+  // 紙らしさ：ごく薄い縁取り
+  const frame = (w, h) =>
+    Buffer.from(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect x="0.5" y="0.5" width="${w - 1}" height="${h - 1}" fill="none" stroke="#0a0a0a" stroke-opacity="0.14"/></svg>`,
+    )
+  const img = sharp({ create: { width: W, height: H, channels: 3, background: MAT } }).composite([
+    { input: front, left, top },
+    { input: frame(fm.width, pageH), left, top },
+    { input: back, left: left + fm.width + gap, top },
+    { input: frame(bm.width, pageH), left: left + fm.width + gap, top },
+  ])
+  await writeSet(img, outBase, { widths: [800] })
+}
+
 async function main() {
-  console.log('▶ Works thumbnails (16:10, grayscale)')
+  console.log('▶ Works thumbnails (16:10)')
   await thumbnail('pretwe.jpg', 'images/works/pretwe', { pad: true, fit: 'inside' })
   await thumbnail('drawers9.jpg', 'images/works/drawers9', { position: 'top', pad: true })
   await thumbnail('stendear-site.png', 'images/works/stendear-site', { position: 'top', pad: true })
+  await printThumbnail('godai-flyer-front.jpg', 'godai-flyer-back.jpg', 'images/works/godai-flyer')
 
-  console.log('▶ Hero portrait (3:4, grayscale)')
+  console.log('▶ Work detail images (flyer pages)')
+  await writeSet(sharp(path.join(SRC, 'godai-flyer-front.jpg')).resize({ width: 1200 }), 'images/works/godai-flyer-front', {
+    widths: [800],
+  })
+  await writeSet(sharp(path.join(SRC, 'godai-flyer-back.jpg')).resize({ width: 1200 }), 'images/works/godai-flyer-back', {
+    widths: [800],
+  })
+
+  console.log('▶ Hero portrait (3:4)')
   await writeSet(
-    sharp(path.join(SRC, 'about_shun.png')).resize({ width: 480, height: 640, fit: 'cover', position: 'top' }).grayscale(),
+    sharp(path.join(SRC, 'about_shun.png')).resize({ width: 480, height: 640, fit: 'cover', position: 'top' }),
     'images/hero/portrait',
     { widths: [240] },
   )
 
-  console.log('▶ About environment photo (3:2, grayscale)')
+  console.log('▶ About photos')
   await writeSet(
     sharp(path.join(SRC, 'about_main2.jpg'))
       .resize({ width: 1200, height: 800, fit: 'cover', position: 'right top' })
-      .grayscale()
       .modulate({ brightness: 1.08 }),
     'images/about/portrait-env',
     { widths: [800] },
   )
+  await writeSet(
+    sharp(path.join(SRC, 'marathon-2025.jpg')).resize({ width: 900, height: 1200, fit: 'cover', position: 'top' }),
+    'images/about/marathon-2025',
+    { widths: [600] },
+  )
 
-  console.log('▶ Certification badges (160×160 @2x, grayscale WebP + PNG)')
+  console.log('▶ Certification badges (160×160, WebP + PNG, original colors)')
   const certs = [
     ['cert-aws-saa.png', 'aws-saa'],
+    ['cert-snowpro-core.png', 'snowpro-core'],
     ['cert-databricks-de.png', 'databricks-de'],
     ['cert-sf-b2c-dev.png', 'sf-b2c-dev'],
     ['cert-sf-admin.png', 'sf-admin'],
@@ -108,9 +147,8 @@ async function main() {
     const badge = sharp(path.join(SRC, file))
       .trim({ threshold: 5 })
       .resize({ width: 160, height: 160, fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-      .grayscale()
     await badge.clone().png({ compressionLevel: 9, palette: true }).toFile(out)
-    await badge.clone().webp({ quality: 80, effort: 6 }).toFile(out.replace(/\.png$/, '.webp'))
+    await badge.clone().webp({ quality: 82, effort: 6 }).toFile(out.replace(/\.png$/, '.webp'))
     await report(out)
     await report(out.replace(/\.png$/, '.webp'))
   }

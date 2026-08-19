@@ -29,7 +29,7 @@ export default function ProofBar() {
 
         <div className="border-t border-line py-8 md:py-10">
           <p className="label mb-6">Certifications</p>
-          <ul className="grid gap-x-6 gap-y-6 sm:grid-cols-2 md:grid-cols-4">
+          <ul className="grid gap-x-6 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {CERTIFICATIONS.map((c, i) => (
               <Reveal as="li" key={c.id} delay={i * 60} className="flex items-start gap-4">
                 <CertBadge cert={c} className="h-14 w-14 md:h-16 md:w-16" />

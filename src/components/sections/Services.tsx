@@ -12,7 +12,7 @@ export default function Services() {
           id="services-title"
           label="Services"
           title="頼めること。"
-          lead="4つの領域を、要件定義から運用まで一人で通せます。小さな改修からご相談ください。"
+          lead="5つの領域を、要件定義から運用まで一人で通せます。小さな改修やチラシ1枚からご相談ください。"
           link={{ href: '/skills', label: '技術スタックを見る' }}
         />
         <ol className="border-t border-line">

@@ -5,6 +5,7 @@ import { WORKS, getWork } from '@/content/works'
 import { creativeWorkJsonLd, pageMetadata } from '@/lib/seo'
 import JsonLd from '@/components/ui/JsonLd'
 import WorkThumbnail from '@/components/WorkThumbnail'
+import Picture from '@/components/ui/Picture'
 import ContactCta from '@/components/sections/ContactCta'
 
 type Params = { slug: string }
@@ -115,6 +116,26 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
           <div className="mt-12">
             <WorkThumbnail thumbnail={work.thumbnail} sizes="(min-width: 1280px) 1112px, 100vw" priority />
           </div>
+
+          {work.gallery && (
+            <ul className="mt-8 grid gap-6 sm:grid-cols-2" aria-label="制作物">
+              {work.gallery.map((g) => (
+                <li key={g.src}>
+                  <Picture
+                    src={g.src}
+                    alt={g.alt}
+                    width={g.width}
+                    height={g.height}
+                    widths={[800]}
+                    sizes="(min-width: 1024px) 540px, 100vw"
+                    className="overflow-hidden rounded-sm border border-line bg-surface"
+                    imgClassName="h-auto w-full"
+                  />
+                  {g.caption && <p className="mt-2 font-mono text-xs text-muted">{g.caption}</p>}
+                </li>
+              ))}
+            </ul>
+          )}
 
           <div className="mt-16 grid gap-12 lg:grid-cols-12">
             <div className="space-y-12 lg:col-span-8">

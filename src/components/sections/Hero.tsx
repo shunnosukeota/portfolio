@@ -27,7 +27,7 @@ export default function Hero() {
               className="enter mt-8 max-w-prose text-base text-muted md:text-md lg:max-w-prose-wide"
               style={{ '--enter-delay': '120ms' } as React.CSSProperties}
             >
-              要件定義から実装・運用まで一貫対応。SFCC によるEC構築、AWS、Snowflake / Databricks のデータ基盤まで、仙台を拠点に事業会社・制作会社の開発を支えます。個人開発ブランド {SITE.name}。
+              要件定義から実装・運用まで一貫対応。SFCC によるEC構築、AWS、Snowflake / Databricks のデータ基盤、チラシやバナーの広告制作まで、仙台を拠点に事業会社・制作会社を支えます。個人開発ブランド {SITE.name}。
             </p>
             <div
               className="enter mt-10 flex flex-wrap items-center gap-3"

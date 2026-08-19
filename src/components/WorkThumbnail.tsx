@@ -3,7 +3,7 @@ import Picture from '@/components/ui/Picture'
 import ApparelEcDiagram from '@/components/diagrams/ApparelEcDiagram'
 import DataPlatformDiagram from '@/components/diagrams/DataPlatformDiagram'
 
-/** 16:10 に統一したサムネイル。画像（グレースケール）または SVG 図版 */
+/** 16:10 に統一したサムネイル。画像（元の色）または SVG 図版 */
 export default function WorkThumbnail({
   thumbnail,
   sizes = '(min-width: 1024px) 600px, 100vw',
@@ -31,7 +31,7 @@ export default function WorkThumbnail({
       sizes={sizes}
       priority={priority}
       className="aspect-16/10 w-full overflow-hidden rounded-sm border border-line bg-surface"
-      imgClassName="img-mono h-full w-full object-cover"
+      imgClassName="img-thumb h-full w-full object-cover"
     />
   )
 }

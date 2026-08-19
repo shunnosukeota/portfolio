@@ -193,13 +193,13 @@
     }
   }
 
-  /* サムネイル：書き出し時にグレースケール化済み。ホバーは明度をわずかに戻すだけ */
-  .img-mono {
-    filter: brightness(0.96);
+  /* サムネイル：ホバーで明度をわずかに上げるだけ（彩度・色は元画像のまま） */
+  .img-thumb {
+    filter: brightness(0.97);
     transition: filter 600ms var(--ease-out);
   }
   @media (hover: hover) {
-    .group:hover .img-mono {
+    .group:hover .img-thumb {
       filter: brightness(1);
     }
   }

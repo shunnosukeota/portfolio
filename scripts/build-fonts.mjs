@@ -25,7 +25,7 @@ const OUT_DIR = path.join(ROOT, 'src/fonts')
 const WEIGHTS = [400, 500]
 
 /** サイト内テキストを収集する対象 */
-const SCAN_DIRS = ['src/content', 'src/components', 'src/app', 'scripts']
+const SCAN_DIRS = ['src/content', 'src/components', 'src/app', 'src/lib']
 
 async function* walk(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {

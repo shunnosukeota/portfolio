@@ -127,6 +127,7 @@ const config: Config = {
         12: 'repeat(12, minmax(0, 1fr))',
         // dl（ラベル＋値）用
         meta: '4.5rem minmax(0, 1fr)',
+        emoji: '2.5rem minmax(0, 1fr)',
         timeline: '7rem minmax(0, 1fr)',
         'timeline-wide': '9rem minmax(0, 1fr)',
       },

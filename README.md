@@ -29,7 +29,8 @@ Node 20 以上。`main` に push すると `.github/workflows/deploy.yml` が S3
 | `skills.ts` | 技術スタック（習熟度 1〜3・年数） |
 | `certifications.ts` | 保有資格（画像は `public/images/certs/`） |
 | `process.ts` | 進め方の 4 ステップ |
-| `career.ts` | 経歴年表・プロフィール補足 |
+| `career.ts` | 経歴年表・プロフィール補足・Personal（遊び心の自己紹介） |
+| `blog.ts` | Zenn のプロフィール・フォールバック記事一覧・外部での紹介（SnowVillage 等）。記事一覧はビルド時に Zenn API から自動取得 |
 
 **日本語を追加・変更したら `npm run fonts` を実行**してください（和文フォントはサイト内の使用文字にサブセット化して配信しているため。未収録文字は OS フォントで表示されます）。
 
@@ -37,7 +38,7 @@ Node 20 以上。`main` に push すると `.github/workflows/deploy.yml` が S3
 
 | コマンド | 内容 |
 |---|---|
-| `npm run images` | `assets/originals/` → `public/images/` に AVIF/WebP/JPG（グレースケール・16:10 統一）、資格バッジ、ファビコン群を生成 |
+| `npm run images` | `assets/originals/` → `public/images/` に AVIF/WebP/JPG（元の色のまま・16:10 統一）、資格バッジ、ファビコン群を生成 |
 | `npm run logo` | `public/logo.svg` / `logo-mark.svg` / `src/components/ui/logoPaths.ts` を再生成（SVGO 最適化） |
 | `npm run og` | `public/og.png`（1200×630）を生成 |
 | `npm run fonts` | `src/fonts/NotoSansJP-{400,500}.subset.woff2` を再生成 |

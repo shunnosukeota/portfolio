@@ -16,7 +16,7 @@ export default function AboutTeaser() {
         <div className="grid gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
             <p className="max-w-prose text-md text-muted">
-              高専で建築を学び、施工の現場を経てIT業界へ。ECのプロジェクトリーダーを務めたのち、データエンジニアへ転身しました。「作る」だけでなく「使われ続ける」ことまで設計するのが、私の仕事の軸です。
+              高専で建築を学び、施工の現場を経てIT業界へ。SIer でECのプロジェクトリーダー／マネージャーを務めたのち、現在は外資系コンサルティングファームでデータエンジニアリングに携わっています。「作る」だけでなく「使われ続ける」ことまで設計するのが、私の仕事の軸です。
             </p>
             <div className="mt-8 border-t border-line pt-6">
               <p className="label">{SITE.brand.origin}</p>
