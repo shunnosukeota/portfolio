@@ -2,7 +2,8 @@
  * Works（実績）。
  * - featured: true のものがトップページの Selected Works に表示されます（表示順は配列順）。
  * - NDA 案件は client を匿名化しつつ規模感を書きます。
- * - thumbnail は画像（images/works/{slug}.{avif,webp,jpg}）か、SVG 図版（diagram）のどちらか。
+ * - thumbnail は画像（images/works/{slug}.{avif,webp,jpg}）か、SVG 図版（diagram: src/components/diagrams）のどちらか。
+ *   NDA 2 案件は現在 画像（カラー構成図）を使用。モノクロのインライン SVG に戻す場合は type: 'diagram' に切り替える。
  * - gallery は詳細ページにのみ表示する追加画像（任意）。
  */
 export type WorkThumbnail =
@@ -36,7 +37,7 @@ export type Work = {
 export const WORKS: Work[] = [
   {
     slug: 'sfcc-ec',
-    title: 'アパレル・ジュエリー等 4社のEC構築・改修・運用（SFCC）',
+    title: 'EC構築・改修・運用（SFCC）',
     client: 'アパレル / ジュエリー / スポーツアパレル / 浄水器メーカー 各社の公式EC（NDA）',
     category: 'EC構築・運用 / Salesforce Commerce Cloud',
     period: '2年7ヶ月',
@@ -44,7 +45,7 @@ export const WORKS: Work[] = [
     featured: true,
     nda: true,
     summary:
-      '一次請け SIer にて、Salesforce Commerce Cloud 上で稼働する 4 社のECサイトの新規構築・機能改修・保守運用を担当。入社半年でプロジェクトリーダーに就任し、以後はPL/PMとして提案・見積から要件定義、設計、開発、テスト、リリース、保守運用までを通しました。',
+      '一次請け SIer にて、Salesforce Commerce Cloud 上で稼働するECサイトの新規構築・機能改修・保守運用を担当。入社1年経たずでプロジェクトリーダーに就任し、以後はPL/PMとして提案・見積から要件定義、設計、開発、テスト、リリース、保守運用までを通しました。',
     challenge:
       'セール・新作発売など負荷ピークが読める一方で、決済・ポイント・在庫・CRM など外部システム連携が多く、1つの改修が注文フロー全体に影響する。複数クライアントの改修と保守運用を 3〜4 名のチームで並行して回し、短いリリースサイクルの中で品質と納期を両立する必要があった。',
     role: [
@@ -65,16 +66,18 @@ export const WORKS: Work[] = [
       'AWS / JMeter',
     ],
     outcomes: [
-      '未経験入社から半年でプロジェクトリーダーに就任し、2年間で 4 業界・4 社のEC改修を並行してリード',
+      '未経験入社から1年経たずでプロジェクトリーダーに就任し、2年間で 4 業界・4 社のEC改修を並行してリード',
       '新規構築（浄水器EC）はテスト・不具合修正を最小工数で完了し、ローンチ時の売上立ち上がりに貢献',
       '要件定義段階で詳細を詰める運営により、PL 担当案件を納期遅延なく納品',
       '保守運用の窓口を引き継ぎ、定例のファシリテーションと月次提案で契約工数の消化率を大幅に改善。継続受注につなげた',
     ],
     scale: '3〜4 名チームの PL/PM。4 社の公式ECを並行担当（うち 2 社の保守運用窓口）',
     thumbnail: {
-      type: 'diagram',
-      id: 'apparel-ec',
-      alt: 'SFCC を中心に、決済・ポイント・在庫・CRM の各システムと連携するECアーキテクチャ図',
+      type: 'image',
+      src: '/images/works/sfcc-ec',
+      alt: 'EC構築・改修・運用（SFCC）の構成図。顧客 → Salesforce Commerce Cloud（Storefront / 商品・カタログ / カート・チェックアウト / プロモーション / Jobs / OCAPI・SCAPI）→ 決済サービス・会員 CRM・在庫基幹・物流の連携と、要件定義から運用改善までの工程',
+      width: 1600,
+      height: 1000,
     },
   },
   {
@@ -105,9 +108,11 @@ export const WORKS: Work[] = [
     ],
     scale: '全 10 名のプロジェクトにメンバーとして参画（提案・要件定義・開発）',
     thumbnail: {
-      type: 'diagram',
-      id: 'data-platform',
-      alt: 'AWS S3 の製造ログ・業務システム・ファイルを Snowflake に取り込み、Raw / Staging / Mart の3層で整備して BI と Streamlit に届けるデータフロー図',
+      type: 'image',
+      src: '/images/works/data-platform',
+      alt: '製造ログを扱うデータ基盤の構成図。設備ログ・センサー・作業実績・各種システム → Amazon S3（レイク）→ Snowflake の RAW / TRANSFORM / MART → 可視化・アラート・レポート。CloudFormation / IAM / KMS / Secrets Manager / Route 53 によるガバナンスと運用',
+      width: 1600,
+      height: 1000,
     },
   },
   {

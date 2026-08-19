@@ -55,10 +55,3 @@ export const CERTIFICATIONS: Certification[] = [
     acquired: '2024.04',
   },
 ]
-
-/** バッジ画像のないその他の資格・スコア */
-export const OTHER_CREDENTIALS: { name: string; acquired: string }[] = [
-  { name: '基本情報技術者試験', acquired: '2023.12' },
-  { name: '技術英語能力検定 2級', acquired: '2021.12' },
-  { name: 'TOEIC Listening & Reading 715', acquired: '2021.04' },
-]

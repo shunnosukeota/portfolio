@@ -27,10 +27,10 @@ export const CAREER: CareerItem[] = [
   },
   {
     period: '2023.01 – 2025.07',
-    title: 'IT業界へ。EC開発のSIerで入社半年でプロジェクトリーダーに',
+    title: 'IT業界へ。EC開発のSIerで入社1年経たずでプロジェクトリーダーに',
     org: 'デジタルコマース領域の一次請け SIer（仙台）',
     description:
-      'Salesforce Commerce Cloud によるEC開発に従事。浄水器メーカーの新規構築を皮切りに、アパレル・ジュエリー・スポーツアパレルの各ECで機能改修と保守運用を担当。入社半年でプロジェクトリーダー、その後プロジェクトマネージャーとして 3〜4 名のチームを率い、提案・見積から保守運用まで複数案件を並行してリード。',
+      'Salesforce Commerce Cloud によるEC開発に従事。浄水器メーカーの新規構築を皮切りに、アパレル・ジュエリー・スポーツアパレルの各ECで機能改修と保守運用を担当。入社1年経たずでプロジェクトリーダー、その後プロジェクトマネージャーとして 3〜4 名のチームを率い、提案・見積から保守運用まで複数案件を並行してリード。',
     tags: ['SFCC', 'PL / PM', '顧客折衝', '決済・CRM連携'],
   },
   {
@@ -54,17 +54,19 @@ export const CAREER: CareerItem[] = [
 export const PROFILE_FACTS = [
   { label: '拠点', value: '宮城県仙台市（リモート対応可）' },
   { label: '現職', value: '外資系コンサルティングファーム ITコンサルタント（データエンジニアリング）' },
-  { label: '稼働形態', value: '業務委託 / 準委任・請負（副業として）' },
+  { label: '稼働形態', value: '業務委託 / 準委任・請負' },
 ]
 
-/** About ページの "Personal" — 遊び心のある自己紹介 */
-export const PERSONAL_FACTS = [
-  { label: '生まれ', value: '2001年10月、仙台' },
-  { label: 'MBTI', value: 'ENTP — 討論者。新しいことを試すのが好き' },
+/** About ページの "Personal" — 遊び心のある自己紹介。href を付けると値の横にリンクが出ます */
+export type PersonalFact = { label: string; value: string; href?: string; linkLabel?: string }
+
+export const PERSONAL_FACTS: PersonalFact[] = [
+  { label: '生まれ', value: '2001年11月、仙台' },
+  { label: 'MBTI', value: 'ENTP — 討論者' },
   { label: '投打', value: '右投右打' },
-  { label: 'スペック', value: '171cm / 64kg' },
-  { label: '走る', value: 'フルマラソン。毎日ランニング、東京レガシーハーフ 2025 完走' },
-  { label: '観る', value: '野球観戦' },
-  { label: '聴く', value: 'UVERworld' },
+  { label: '身長体重', value: '171cm / 64kg' },
+  { label: '趣味', value: 'ランニング', href: 'https://www.strava.com/athletes/205299491', linkLabel: 'Strava' },
+  { label: 'スペック', value: 'Marathon: 2:56:53 / 100km: 9:54:11' },
+  { label: '推し', value: 'UVERworld' },
   { label: '座右の銘', value: '「やって確かめる」' },
 ]

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { NAV, SITE } from '@/content/site'
-import { Mark, Wordmark } from '@/components/ui/Logo'
+import { Wordmark } from '@/components/ui/Logo'
 import AvailabilityBadge from '@/components/ui/AvailabilityBadge'
 
 export default function Footer() {
@@ -11,7 +11,6 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
             <Link href="/" className="inline-flex items-center gap-3 text-fg" aria-label={`${SITE.name} ホーム`}>
-              <Mark className="h-7 w-auto" />
               <Wordmark className="h-5 w-auto" />
             </Link>
             <p className="mt-5 max-w-prose text-sm text-muted">

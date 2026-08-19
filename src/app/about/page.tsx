@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { CAREER, PERSONAL_FACTS, PROFILE_FACTS } from '@/content/career'
-import { CERTIFICATIONS, OTHER_CREDENTIALS } from '@/content/certifications'
+import { CERTIFICATIONS } from '@/content/certifications'
 import { SITE } from '@/content/site'
 import { pageMetadata, personJsonLd, profilePageJsonLd } from '@/lib/seo'
 import JsonLd from '@/components/ui/JsonLd'
@@ -115,13 +115,6 @@ export default function AboutPage() {
                     </li>
                   ))}
                 </ul>
-                <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-4 font-mono text-xs text-muted">
-                  {OTHER_CREDENTIALS.map((c) => (
-                    <li key={c.name}>
-                      {c.name} <span aria-hidden="true">·</span> {c.acquired}
-                    </li>
-                  ))}
-                </ul>
               </Reveal>
             </div>
           </div>
@@ -133,13 +126,26 @@ export default function AboutPage() {
                 <p className="label mb-4">Personal</p>
                 <h2 className="text-h2 font-medium text-balance">仕事の外側も、少しだけ。</h2>
                 <p className="mt-5 max-w-prose text-md text-muted">
-                  毎朝走って、週末は野球を観て、移動中は UVERworld。「やって確かめる」が好きで、未知の領域ほど燃えるタイプです。
+                  毎日走って、マラソンに出場。その原動力はUVERworldからきています。
+                  <br/>やって確かめる精神のもと、未知の領域ほど燃えるタイプです。
                 </p>
                 <dl className="mt-8 grid gap-x-8 gap-y-0 sm:grid-cols-2">
                   {PERSONAL_FACTS.map((f) => (
                     <div key={f.label} className="grid grid-cols-timeline gap-4 border-b border-line py-3 text-sm">
                       <dt className="font-mono text-xs text-muted">{f.label}</dt>
-                      <dd>{f.value}</dd>
+                      <dd>
+                        {f.value}
+                        {f.href && (
+                          <a
+                            href={f.href}
+                            target="_blank"
+                            rel="noopener noreferrer me"
+                            className="link ml-3 font-mono text-xs text-muted"
+                          >
+                            {f.linkLabel ?? f.href} ↗
+                          </a>
+                        )}
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -155,7 +161,7 @@ export default function AboutPage() {
                   className="overflow-hidden rounded-sm border border-line"
                   imgClassName="aspect-3/4 w-full object-cover"
                 />
-                <p className="mt-3 font-mono text-xs text-muted">TOKYO LEGACY HALF 2025 — 完走</p>
+
               </Reveal>
             </div>
           </div>

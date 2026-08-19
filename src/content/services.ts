@@ -30,8 +30,8 @@ export const SERVICES: Service[] = [
       'コーポレートサイト・サービスサイト・業務アプリを、要件定義から設計・実装・公開まで一貫して担当します。CMS（WordPress）での更新運用や、Next.js による高速な静的サイトにも対応します。',
     scope: ['要件定義・情報設計', 'UI実装（レスポンシブ）', 'CMS構築 / ヘッドレス化', '公開・保守'],
     tags: ['Next.js', 'TypeScript', 'WordPress', 'Laravel', 'Tailwind CSS'],
-    delivery: '2週間〜',
-    price: '30万円〜',
+    delivery: '1週間〜',
+    price: '5万円〜',
     workSlug: 'drawers9',
   },
   {
@@ -55,7 +55,7 @@ export const SERVICES: Service[] = [
     scope: ['構成設計・見積', 'S3 / CloudFront / Lambda', 'EC2 / RDS / VPC', 'CI/CD・監視・コスト最適化'],
     tags: ['AWS', 'CloudFront', 'Lambda', 'IAM', 'GitHub Actions'],
     delivery: '1週間〜',
-    price: '20万円〜',
+    price: '15万円〜',
     workSlug: 'stendear-site',
   },
   {

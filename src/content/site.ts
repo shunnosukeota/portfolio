@@ -50,7 +50,7 @@ export const SITE = {
    */
   availability: {
     status: 'limited' as 'open' | 'limited' | 'closed',
-    label: '2026年10月〜 受託枠 残1',
+    label: '2026年9月〜 受託枠 残1',
     note: '小規模な改修・スポット相談・チラシ1枚からの制作は随時受付中',
   },
   /**

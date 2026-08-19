@@ -103,6 +103,9 @@ async function main() {
   await thumbnail('drawers9.jpg', 'images/works/drawers9', { position: 'top', pad: true })
   await thumbnail('stendear-site.png', 'images/works/stendear-site', { position: 'top', pad: true })
   await printThumbnail('godai-flyer-front.jpg', 'godai-flyer-back.jpg', 'images/works/godai-flyer')
+  // NDA 案件の構成図（4:3 の図版を 16:10 の台紙に収める）
+  await thumbnail('work-sfcc-ec.png', 'images/works/sfcc-ec', { pad: true, fit: 'inside' })
+  await thumbnail('work-data-platform.png', 'images/works/data-platform', { pad: true, fit: 'inside' })
 
   console.log('▶ Work detail images (flyer pages)')
   await writeSet(sharp(path.join(SRC, 'godai-flyer-front.jpg')).resize({ width: 1200 }), 'images/works/godai-flyer-front', {

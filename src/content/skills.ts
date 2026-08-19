@@ -53,7 +53,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
   {
     id: 'cloud',
     title: 'クラウド / インフラ',
-    description: 'AWS 認定ソリューションアーキテクト。コストと安全性を両立した構成を設計します。',
+    description: 'アーキテクトとしてインフラ構築の実務経験あり。コストと安全性を両立した構成を設計します。',
     skills: [
       { name: 'AWS（S3 / CloudFront / Lambda@Edge / Route 53 / IAM）', level: 3, years: '2年+', note: '認定 Solutions Architect Associate' },
       { name: 'AWS（EC2 / RDS / VPC）', level: 2, years: '2年' },
