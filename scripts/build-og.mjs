@@ -27,14 +27,14 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
   <!-- wordmark -->
   <g transform="translate(72 64) scale(2.1)" fill="#0a0a0a">${logoPaths}</g>
   <!-- label -->
-  <text x="72" y="214" font-family="${MONO}" font-size="20" letter-spacing="3" fill="#5a5a5a">SYSTEMS &amp; DATA ENGINEER — SENDAI, JAPAN</text>
+  <text x="72" y="214" font-family="${MONO}" font-size="20" letter-spacing="3" fill="#5a5a5a">IT CONSULTANT &amp; ENGINEER — SENDAI, JAPAN</text>
   <!-- title -->
   <text x="68" y="310" font-family="${JP}" font-size="61" font-weight="600" letter-spacing="-1.5" fill="#0a0a0a">Web・EC・クラウド・データ基盤を、</text>
   <text x="68" y="392" font-family="${JP}" font-size="61" font-weight="600" letter-spacing="-1.5" fill="#0a0a0a">企画から運用まで一人で通す。</text>
   <!-- footer -->
   <line x1="72" y1="506" x2="1128" y2="506" stroke="#0a0a0a" stroke-opacity="0.14" stroke-width="1.5"/>
   <text x="72" y="556" font-family="${JP}" font-size="24" fill="#0a0a0a">太田 駿之介</text>
-  <text x="212" y="556" font-family="${JP}" font-size="22" fill="#5a5a5a">システムエンジニア / データエンジニア</text>
+  <text x="212" y="556" font-family="${JP}" font-size="22" fill="#5a5a5a">ITコンサルタント / エンジニア</text>
   <text x="1128" y="556" text-anchor="end" font-family="${MONO}" font-size="20" letter-spacing="1" fill="#5a5a5a">stendear.com</text>
 </svg>`
 

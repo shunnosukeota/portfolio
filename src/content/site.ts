@@ -8,13 +8,13 @@ export const SITE = {
   /** <title> のデフォルト */
   title: 'Stendear | 太田駿之介 — Web・EC・クラウド・データ基盤・広告制作の受託開発',
   description:
-    '仙台のシステムエンジニア／データエンジニア 太田駿之介の個人開発ブランド。Webサイト・Webアプリ開発、Salesforce Commerce Cloud によるEC構築、AWS クラウド構築、Snowflake / Databricks によるデータ基盤構築、チラシ・バナーなどの広告制作まで、企画から運用まで一貫して対応します。',
+    '仙台のITコンサルタント／エンジニア 太田駿之介の個人開発ブランド。Webサイト・Webアプリ開発、Salesforce Commerce Cloud によるEC構築、AWS クラウド構築、Snowflake / Databricks によるデータ基盤構築、チラシ・バナーなどの広告制作まで、企画から運用まで一貫して対応します。',
   locale: 'ja_JP',
   owner: {
     name: '太田 駿之介',
     nameEn: 'Shunnosuke Ota',
-    title: 'システムエンジニア / データエンジニア',
-    titleEn: 'Systems & Data Engineer',
+    title: 'ITコンサルタント / エンジニア',
+    titleEn: 'IT Consultant & Engineer',
     location: '宮城県仙台市',
     locationEn: 'Sendai, Japan',
     birthYear: 2001,

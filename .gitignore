@@ -39,3 +39,6 @@ node_modules
 
 # font source (downloaded on demand by scripts/build-fonts.mjs)
 /assets/fonts/*.ttf
+
+# iCloud/Finder が作る「name 2.ext」形式の重複コピーを誤コミットしない
+**/* [0-9].*
