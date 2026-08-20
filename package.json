@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "find .next src scripts assets public -name '* [0-9].*' -delete 2>/dev/null; true",
     "build": "next build",
     "start": "npx serve out",
     "lint": "next lint",
@@ -12,7 +13,10 @@
     "logo": "node scripts/build-logo.mjs",
     "og": "node scripts/build-og.mjs",
     "assets": "npm run logo && npm run images && npm run og && npm run fonts",
-    "fonts": "node scripts/build-fonts.mjs"
+    "fonts": "node scripts/build-fonts.mjs",
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "preview": "node scripts/serve-static.mjs out 4322",
+    "shot": "node --experimental-websocket scripts/screenshot.mjs"
   },
   "dependencies": {
     "next": "^15.5.23",

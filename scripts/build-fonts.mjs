@@ -5,7 +5,7 @@
  *
  * Google Fonts 経由（next/font/google）だと日本語は約120チャンク・合計 800KB 超になるため、
  * サイト内で実際に使用している文字 + かな・記号の基本セットだけを含む woff2 を生成し、
- * next/font/local で自前配信する（400 / 500 の2ウェイト。700 は未使用のため生成しない）。
+ * next/font/local で自前配信する（400 / 700 の2ウェイト）。
  *
  * ⚠ コンテンツ（src/content 等）に新しい漢字を追加したら、このスクリプトを再実行してください。
  *   未収録の文字はシステムフォント（Hiragino Sans / Yu Gothic 等）で表示されます。
@@ -21,8 +21,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const SRC_FONT = path.join(ROOT, 'assets/fonts/NotoSansJP-VF.ttf')
 const SRC_URL = 'https://github.com/google/fonts/raw/main/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf'
 const OUT_DIR = path.join(ROOT, 'src/fonts')
-// 使用ウェイトは 400（本文）/ 500（見出し）のみ。700 が必要になったら追加して `npm run fonts` → layout.tsx の src にも追記
-const WEIGHTS = [400, 500]
+// 使用ウェイトは 400（本文）と 700（見出し・強調）のみ。
+// 中間ウェイトを増やすと1つあたり約 115KB 増えるので、足す前に本当に必要か確認すること。
+const WEIGHTS = [400, 700]
 
 /** サイト内テキストを収集する対象 */
 const SCAN_DIRS = ['src/content', 'src/components', 'src/app', 'src/lib']

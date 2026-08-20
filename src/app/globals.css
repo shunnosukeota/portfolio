@@ -3,37 +3,27 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
- * Design tokens（色はここでのみ定義。opacity で文字を薄くしない）
+ * Design tokens — 白基調のコーポレート。事業ごとに色を持たせる
  * ------------------------------------------------------------------ */
 :root {
-  /* RGB 三つ組（Tailwind の透明度修飾子 bg-bg/80 等のため）*/
-  --bg-rgb: 250 250 249;
-  --surface-rgb: 255 255 255;
-  --fg-rgb: 10 10 10;
-  --muted-rgb: 90 90 90;
+  --bg-rgb: 255 255 255;
+  --surface-rgb: 246 246 248;
+  --fg-rgb: 12 12 18;
+  --muted-rgb: 92 92 104;
 
-  --bg: rgb(var(--bg-rgb));
-  --surface: rgb(var(--surface-rgb));
-  --fg: rgb(var(--fg-rgb));
-  --fg-muted: rgb(var(--muted-rgb));
+  --brand-rgb: 37 99 235; /* 青：CTA・リンク */
+  --c-web: 37 99 235; /* Web / アプリ */
+  --c-ec: 244 114 22; /* EC */
+  --c-cloud: 124 58 237; /* クラウド */
+  --c-data: 5 150 105; /* データ基盤 */
+  --c-ad: 236 72 153; /* 広告制作 */
+
   --line: rgb(var(--fg-rgb) / 0.1);
-  --line-strong: rgb(var(--fg-rgb) / 0.24);
-  --accent: var(--fg);
-  --accent-fg: var(--bg);
-  --header-h: 64px;
+  --line-strong: rgb(var(--fg-rgb) / 0.22);
+  --header-h: 72px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-rgb: 10 10 10;
-    --surface-rgb: 20 20 20;
-    --fg-rgb: 245 245 244;
-    --muted-rgb: 163 163 163;
-    --line: rgb(var(--fg-rgb) / 0.12);
-    --line-strong: rgb(var(--fg-rgb) / 0.28);
-  }
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+  color-scheme: light;
 }
 
 /* ------------------------------------------------------------------
@@ -43,7 +33,6 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
   }
 
   body {
@@ -51,7 +40,6 @@
     font-feature-settings: 'palt' 1, 'kern' 1;
   }
 
-  /* 和文の自然な折り返し（対応ブラウザのみ） */
   h1,
   h2,
   h3,
@@ -64,19 +52,14 @@
   }
 
   ::selection {
-    background: var(--fg);
-    color: var(--bg);
+    background: rgb(var(--brand-rgb));
+    color: #fff;
   }
 
   :focus-visible {
-    outline: 2px solid var(--fg);
+    outline: 3px solid rgb(var(--brand-rgb));
     outline-offset: 3px;
-    border-radius: 2px;
-  }
-
-  a,
-  button {
-    -webkit-tap-highlight-color: transparent;
+    border-radius: 4px;
   }
 
   img,
@@ -85,7 +68,6 @@
   video {
     display: block;
     max-width: 100%;
-    height: auto;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -98,8 +80,26 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
     }
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 暗い面。トークンを差し替えるだけで、中の部品はそのまま流用できる
+ * ------------------------------------------------------------------ */
+@layer base {
+  .on-dark {
+    --bg-rgb: 11 11 16;
+    --surface-rgb: 26 26 33;
+    --fg-rgb: 255 255 255;
+    --muted-rgb: 172 172 182;
+    /* 白地の青は黒地だとコントラストが足りないので、明るい青に差し替える */
+    --brand-rgb: 125 176 255;
+    --line: rgb(255 255 255 / 0.14);
+    --line-strong: rgb(255 255 255 / 0.32);
+    background: rgb(var(--bg-rgb));
+    color: rgb(var(--fg-rgb));
+    color-scheme: dark;
   }
 }
 
@@ -107,100 +107,420 @@
  * Components
  * ------------------------------------------------------------------ */
 @layer components {
-  /* ラベル：等幅・大文字・ワイドトラッキング */
   .label {
     @apply font-mono text-label uppercase text-muted;
   }
 
-  .hairline {
-    @apply border-t border-line;
-  }
-
-  /* ボタン */
+  /* ボタン：ピル型。押すと沈む */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border px-6 py-3 text-sm font-medium tracking-wide transition-colors duration-fast ease-out;
-    min-height: 44px;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-7 py-3.5 text-sm font-bold tracking-wide transition-all duration-fast ease-pop;
+    min-height: 52px;
   }
   .btn-primary {
-    @apply btn border-accent bg-accent text-accent-fg hover:bg-transparent hover:text-fg;
+    @apply btn bg-brand text-white hover:-translate-y-0.5;
+    box-shadow: 0 4px 0 0 rgb(var(--brand-rgb) / 0.35);
   }
-  .btn-secondary {
-    @apply btn border-line-strong bg-transparent text-fg hover:border-fg;
+  .btn-primary:hover {
+    box-shadow: 0 6px 0 0 rgb(var(--brand-rgb) / 0.35);
+  }
+  .btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 0 rgb(var(--brand-rgb) / 0.35);
+  }
+  .btn-dark {
+    @apply btn bg-fg text-bg hover:-translate-y-0.5;
+    box-shadow: 0 4px 0 0 rgb(var(--fg-rgb) / 0.25);
+  }
+  .btn-dark:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 0 rgb(var(--fg-rgb) / 0.25);
+  }
+  .btn-outline {
+    @apply btn border-2 border-fg bg-transparent text-fg hover:-translate-y-0.5 hover:bg-fg hover:text-bg;
   }
   .btn-sm {
-    @apply px-4 py-2 text-xs;
-    min-height: 36px;
+    @apply px-5 py-2 text-xs;
+    min-height: 40px;
   }
 
-  /* テキストリンク（下線をヘアラインで） */
   .link {
-    @apply underline decoration-line-strong underline-offset-4 transition-colors duration-fast hover:decoration-fg;
+    @apply font-bold text-brand underline decoration-brand/30 underline-offset-4 transition-colors duration-fast hover:decoration-brand;
   }
 
-  /* タグ（等幅） */
+  /* タグ：丸くて小さい */
   .tag {
-    @apply inline-flex items-center rounded-sm border border-line px-2 py-0.5 font-mono text-xs text-muted;
+    @apply inline-flex items-center rounded-full bg-surface px-3 py-1 font-mono text-xs text-muted;
+  }
+
+  /* カード：角丸大きめ＋持ち上がる */
+  .card {
+    @apply rounded-xl border border-line bg-bg transition-all duration-base ease-out;
+  }
+  .card-hover:hover {
+    @apply -translate-y-1.5 shadow-lift;
+  }
+
+  .num {
+    @apply font-mono tabular-nums;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 丸い矢印ボタン。カード全体のホバーに追従する */
+  .arrow-btn {
+    @apply inline-grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line text-fg;
+    transition:
+      transform 380ms var(--ease-pop),
+      background-color 380ms var(--ease-out),
+      border-color 380ms var(--ease-out),
+      color 380ms var(--ease-out);
+  }
+  .group:hover .arrow-btn {
+    background: rgb(var(--fg-rgb));
+    border-color: rgb(var(--fg-rgb));
+    color: rgb(var(--bg-rgb));
+    transform: translateX(5px);
+  }
+
+  /* セクション見出しの上に置く丸いラベル */
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-line bg-bg px-4 py-1.5 font-mono text-label uppercase;
+  }
+
+  /* 暗い面での上書き。.card などと同じレイヤーの後方に置いて確実に勝たせる */
+  .on-dark .card {
+    background-color: transparent;
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.055), rgb(255 255 255 / 0.012));
+  }
+  .on-dark .card-hover:hover {
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.02));
+    box-shadow: none;
+    border-color: rgb(255 255 255 / 0.34);
+  }
+  .on-dark .pill,
+  .on-dark .tag {
+    background-color: rgb(255 255 255 / 0.07);
   }
 }
 
 /* ------------------------------------------------------------------
- * Motion
- *  - 初期状態を opacity:0 にしない。JS が有効な場合のみ（html.js-enabled）
- *    スクロール連動のフェードを付与し、JS 無効時は最初から表示される。
- *  - 最初の画面（Hero）は @starting-style による進入フェード（CSS のみ）。
+ * Motion — JS 有効時だけスクロール連動。無効でも全文が読める
  * ------------------------------------------------------------------ */
 @layer utilities {
   .reveal {
     opacity: 1;
     transform: none;
   }
-  html.js-enabled .reveal {
+  html.js .reveal {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(18px);
     transition:
-      opacity 500ms var(--ease-out),
-      transform 500ms var(--ease-out);
+      opacity 720ms var(--ease-out),
+      transform 720ms var(--ease-out);
     transition-delay: var(--reveal-delay, 0ms);
   }
-  html.js-enabled .reveal.is-visible {
+  html.js .reveal.is-visible {
     opacity: 1;
     transform: none;
   }
 
-  .enter {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 600ms var(--ease-out),
-      transform 600ms var(--ease-out);
-    transition-delay: var(--enter-delay, 0ms);
-  }
-  @starting-style {
-    .enter {
-      opacity: 0;
-      transform: translateY(8px);
-    }
+  /* 文字を1つずつ立ち上げる（Hero の見出し用） */
+  html.js .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em) rotate(4deg);
+    animation: fade-up 620ms var(--ease-pop) forwards;
+    animation-delay: var(--char-delay, 0ms);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html.js-enabled .reveal {
+    html.js .reveal,
+    html.js .char {
       opacity: 1;
       transform: none;
       transition: none;
-    }
-    .enter {
-      transition: none;
+      animation: none;
     }
   }
 
-  /* サムネイル：ホバーで明度をわずかに上げるだけ（彩度・色は元画像のまま） */
-  .img-thumb {
-    filter: brightness(0.97);
-    transition: filter 600ms var(--ease-out);
+  /* 画像：ホバーでゆっくり寄る */
+  .zoomable {
+    overflow: hidden;
+  }
+  .zoomable img {
+    transition: transform 900ms var(--ease-out);
   }
   @media (hover: hover) {
-    .group:hover .img-thumb {
-      filter: brightness(1);
+    .group:hover .zoomable img,
+    .zoomable:hover img {
+      transform: scale(1.05);
     }
   }
+
+  /* 背景に浮かべる色の玉 */
+  .blob {
+    position: absolute;
+    filter: blur(48px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* 下線をホバーで引く */
+  .underline-grow {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size 380ms var(--ease-out);
+  }
+  .underline-grow:hover,
+  .group:hover .underline-grow {
+    background-size: 100% 2px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* 斜めに切った帯 */
+  .slant-top {
+    clip-path: polygon(0 3vw, 100% 0, 100% 100%, 0 100%);
+  }
+
+  /* 事業カラーを流したグラデーション文字。見出しの一部だけに使う */
+  .grad-text {
+    background-image: linear-gradient(
+      96deg,
+      rgb(var(--fg-rgb)) 0%,
+      rgb(var(--fg-rgb) / 0.55) 42%,
+      rgb(var(--fg-rgb)) 78%,
+      rgb(var(--fg-rgb) / 0.7) 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  html.js .grad-text {
+    animation: shimmer 7s ease-in-out infinite alternate;
+  }
+
+  /* 細いグリッド。中央だけ残してテック感を足す */
+  .grid-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgb(var(--fg-rgb) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--fg-rgb) / 0.05) 1px, transparent 1px);
+    background-size: 76px 76px;
+    -webkit-mask-image: radial-gradient(ellipse 78% 62% at 50% 42%, #000 28%, transparent 76%);
+    mask-image: radial-gradient(ellipse 78% 62% at 50% 42%, #000 28%, transparent 76%);
+  }
+
+  /* カード背面に敷く大きな連番 */
+  .ghost-num {
+    position: absolute;
+    right: 0.02em;
+    top: -0.28em;
+    z-index: 0;
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 7.5rem;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: rgb(var(--fg-rgb) / 0.045);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ヘッダー下のスクロール進捗 */
+  .progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    background: linear-gradient(
+      90deg,
+      rgb(var(--c-web)),
+      rgb(var(--c-cloud)) 32%,
+      rgb(var(--c-ad)) 58%,
+      rgb(var(--c-ec)) 80%,
+      rgb(var(--c-data))
+    );
+  }
+}
+
+/* ------------------------------------------------------------------
+ * RGF Professional 参考のレイアウト部品
+ * 配色は白黒のまま、構造と動きだけを寄せている
+ * ------------------------------------------------------------------ */
+@layer components {
+  /* 右端に縦書きで貼りつくセクションラベル */
+  .rail {
+    position: absolute;
+    inset-block: 0;
+    right: 0;
+    width: 1.5rem;
+    pointer-events: none;
+  }
+  .rail > span {
+    position: sticky;
+    top: 42vh;
+    display: inline-block;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    white-space: nowrap;
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgb(var(--muted-rgb));
+  }
+  @media (max-width: 1279px) {
+    .rail {
+      display: none;
+    }
+  }
+
+  /* 縦のガイド線。セクションの奥に薄く敷く */
+  .grid-cols-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to right, rgb(var(--fg-rgb) / 0.05) 1px, transparent 1px);
+    background-size: 12.5% 100%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  }
+  @media (max-width: 1023px) {
+    .grid-cols-bg::before {
+      display: none;
+    }
+  }
+
+  /* View More ● の丸ボタン */
+  .round-link {
+    @apply inline-flex items-center gap-4 text-sm font-bold;
+  }
+  .round-link i {
+    @apply grid h-12 w-12 shrink-0 place-items-center rounded-full bg-fg text-bg;
+    transition: transform 420ms var(--ease-pop);
+  }
+  .round-link i::after {
+    content: '';
+    @apply h-1.5 w-1.5 rounded-full;
+    background: currentColor;
+    transition: transform 420ms var(--ease-pop);
+  }
+  .round-link:hover i {
+    transform: scale(1.14);
+  }
+  .round-link:hover i::after {
+    transform: scale(1.8);
+  }
+
+  /* 丸つきの大きなピル。RGF の主要導線に合わせた形 */
+  .pill-cta {
+    @apply flex w-full items-center justify-between gap-6 rounded-full px-8 py-5 text-md font-bold;
+    transition:
+      transform 420ms var(--ease-pop),
+      background-color 420ms var(--ease-out),
+      color 420ms var(--ease-out),
+      border-color 420ms var(--ease-out);
+  }
+  .pill-cta i {
+    @apply grid h-12 w-12 shrink-0 place-items-center rounded-full;
+    transition: background-color 420ms var(--ease-out), color 420ms var(--ease-out);
+  }
+  .pill-cta i::after {
+    content: '';
+    @apply h-1.5 w-1.5 rounded-full;
+    background: currentColor;
+  }
+  .pill-cta:hover {
+    transform: translateY(-3px);
+  }
+  .pill-cta-dark {
+    @apply pill-cta bg-fg text-bg;
+  }
+  .pill-cta-dark i {
+    @apply bg-bg text-fg;
+  }
+  .pill-cta-ghost {
+    @apply pill-cta border-2 border-fg text-fg;
+  }
+  .pill-cta-ghost i {
+    @apply bg-fg text-bg;
+  }
+  .pill-cta-ghost:hover {
+    @apply bg-fg text-bg;
+  }
+  .pill-cta-ghost:hover i {
+    @apply bg-bg text-fg;
+  }
+
+  /* 番号つきタイムラインの数字 */
+  .step-num {
+    @apply grid h-14 w-14 shrink-0 place-items-center rounded-md bg-fg font-mono text-lg font-bold text-bg;
+  }
+}
+
+@layer components {
+  /* ヒーロー下端のスクロール表示。線が下へ流れ続ける */
+  .scroll-rail {
+    position: relative;
+    display: block;
+    width: 56px;
+    height: 1px;
+    overflow: hidden;
+    background: var(--line-strong);
+  }
+  .scroll-rail::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: -56px;
+    width: 56px;
+    background: rgb(var(--fg-rgb));
+  }
+  html.js .scroll-rail::after {
+    animation: scroll-rail 2.4s var(--ease-out) infinite;
+  }
+  @keyframes scroll-rail {
+    to {
+      transform: translateX(112px);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
+ * 暗い面の上に重なるときの調整
+ * ------------------------------------------------------------------ */
+@layer components {
+  /* ヘッダーが暗い面に重なっている間は白抜きにする */
+  header.over-dark {
+    color: #fff;
+  }
+  header.over-dark .text-fg {
+    color: #fff;
+  }
+  header.over-dark.backdrop-blur-xl {
+    background: rgb(11 11 16 / 0.82);
+    border-bottom-color: rgb(255 255 255 / 0.14);
+  }
+
+  /* 暗い面では、明るい青に濃い文字を載せた方がコントラストが取れる */
+  .on-dark .btn-primary {
+    color: rgb(11 11 16);
+  }
+  .on-dark .btn-primary:hover {
+    color: rgb(11 11 16);
+  }
+
 }

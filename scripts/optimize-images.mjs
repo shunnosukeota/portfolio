@@ -100,6 +100,7 @@ async function printThumbnail(frontFile, backFile, outBase) {
 async function main() {
   console.log('▶ Works thumbnails (16:10)')
   await thumbnail('pretwe.jpg', 'images/works/pretwe', { pad: true, fit: 'inside' })
+  await thumbnail('asobizukan.png', 'images/works/asobizukan', { pad: true, fit: 'inside' })
   await thumbnail('drawers9.jpg', 'images/works/drawers9', { position: 'top', pad: true })
   await thumbnail('stendear-site.png', 'images/works/stendear-site', { position: 'top', pad: true })
   await printThumbnail('godai-flyer-front.jpg', 'godai-flyer-back.jpg', 'images/works/godai-flyer')
@@ -115,11 +116,13 @@ async function main() {
     widths: [800],
   })
 
+  // ヒーローでは小さく添えるだけなので縦位置で切る。
+  // 元が 672x448 なので 336x448 までは拡大なしで取れる。
   console.log('▶ Hero portrait (3:4)')
   await writeSet(
-    sharp(path.join(SRC, 'about_shun.png')).resize({ width: 480, height: 640, fit: 'cover', position: 'top' }),
+    sharp(path.join(SRC, 'hero-office.jpg')).resize({ width: 336, height: 448, fit: 'cover', position: 'center' }),
     'images/hero/portrait',
-    { widths: [240] },
+    { widths: [168] },
   )
 
   console.log('▶ About photos')

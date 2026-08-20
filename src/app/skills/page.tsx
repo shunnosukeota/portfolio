@@ -5,6 +5,7 @@ import { pageMetadata } from '@/lib/seo'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/ui/Reveal'
 import CertBadge from '@/components/ui/CertBadge'
+import { Blobs } from '@/components/ui/SplitText'
 import ContactCta from '@/components/sections/ContactCta'
 
 export const metadata: Metadata = pageMetadata({
@@ -16,9 +17,9 @@ export const metadata: Metadata = pageMetadata({
 
 function LevelDots({ level }: { level: SkillLevel }) {
   return (
-    <span className="inline-flex items-center gap-1" aria-label={`習熟度 ${LEVEL_LABEL[level]}`}>
+    <span role="img" className="inline-flex items-center gap-1" aria-label={`習熟度 ${LEVEL_LABEL[level]}`}>
       {[1, 2, 3].map((n) => (
-        <span key={n} className={`h-1.5 w-1.5 rounded-full ${n <= level ? 'bg-fg' : 'border border-line-strong'}`} aria-hidden="true" />
+        <span key={n} className={`h-1.5 w-1.5 rounded-full ${n <= level ? 'bg-fg' : 'border border-line'}`} aria-hidden="true" />
       ))}
     </span>
   )
@@ -27,13 +28,15 @@ function LevelDots({ level }: { level: SkillLevel }) {
 export default function SkillsPage() {
   return (
     <>
-      <section className="py-16 lg:py-24">
-        <div className="mx-auto w-full max-w-content px-6 lg:px-16">
+      <section className="relative overflow-hidden py-16 lg:py-24">
+        <Blobs variant="top" />
+        <div className="relative mx-auto w-full max-w-content px-6 lg:px-16">
           <SectionHeading
             level="h1"
             id="skills-heading"
+            dot="cloud"
             label="Skills"
-            title="EC・データ・クラウド・Webを、横断して設計できる。"
+            title="ひととおり自分で触れます"
             lead="習熟度は3段階（主力 / 実務 / 経験あり）。年数は実務での使用期間の目安です。"
           />
 
@@ -46,7 +49,7 @@ export default function SkillsPage() {
                 <Reveal as="li" key={c.id} delay={i * 60} className="flex items-start gap-4">
                   <CertBadge cert={c} className="h-16 w-16" />
                   <div>
-                    <p className="text-sm font-medium leading-snug">{c.name}</p>
+                    <p className="text-sm font-bold leading-snug">{c.name}</p>
                     <p className="mt-1 font-mono text-xs text-muted">{c.issuer}</p>
                   </div>
                 </Reveal>
@@ -57,7 +60,7 @@ export default function SkillsPage() {
           <div className="grid gap-x-8 gap-y-14 md:grid-cols-2">
             {SKILL_GROUPS.map((g, i) => (
               <Reveal as="section" key={g.id} delay={(i % 2) * 60} aria-labelledby={`group-${g.id}`}>
-                <h2 id={`group-${g.id}`} className="text-h3 font-medium">
+                <h2 id={`group-${g.id}`} className="text-h3 font-bold">
                   {g.title}
                 </h2>
                 <p className="mt-2 max-w-prose text-sm text-muted">{g.description}</p>
@@ -88,7 +91,7 @@ export default function SkillsPage() {
           </div>
         </div>
       </section>
-      <ContactCta heading="この技術領域で、困っていることはありませんか。" />
+      <ContactCta heading="この辺りで詰まっていたら、声をかけてください" />
     </>
   )
 }

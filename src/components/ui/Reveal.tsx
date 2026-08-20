@@ -12,7 +12,7 @@ type Props = {
 
 /**
  * スクロール連動のフェード（opacity + 8px）。
- * html.js-enabled が付与された場合のみ CSS 側で初期非表示になるため、
+ * html.js が付与された場合のみ CSS 側で初期非表示になるため、
  * JS が失敗してもコンテンツは最初から表示される。
  */
 export default function Reveal({ children, className = '', delay = 0, as: Tag = 'div' }: Props) {

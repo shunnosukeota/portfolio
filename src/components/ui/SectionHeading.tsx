@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 
+type Dot = 'brand' | 'web' | 'ec' | 'cloud' | 'data' | 'ad'
+
 type Props = {
   label: string
   title: ReactNode
@@ -8,29 +10,41 @@ type Props = {
   id?: string
   link?: { href: string; label: string }
   level?: 'h1' | 'h2'
+  /** ラベル横の点の色。ページごとに事業カラーを割り当てて統一感を出す */
+  dot?: Dot
 }
 
-/** セクション見出し：ラベル（等幅）＋見出し＋リード＋任意のリンク */
-export default function SectionHeading({ label, title, lead, id, link, level = 'h2' }: Props) {
+const DOT: Record<Dot, string> = {
+  brand: 'bg-brand',
+  web: 'bg-web',
+  ec: 'bg-ec',
+  cloud: 'bg-cloud',
+  data: 'bg-data',
+  ad: 'bg-ad',
+}
+
+/** セクション見出し：丸ラベル＋太い見出し＋リード＋任意のリンク */
+export default function SectionHeading({ label, title, lead, id, link, level = 'h2', dot = 'brand' }: Props) {
   const Heading = level
   return (
-    <div className="mb-10 grid gap-6 md:mb-14 md:grid-cols-12 md:items-end">
+    <div className="mb-12 grid gap-6 md:mb-16 md:grid-cols-12 md:items-end">
       <div className="md:col-span-8">
-        <p className="label mb-4" id={id ? `${id}-label` : undefined}>
+        <span className="pill" id={id ? `${id}-label` : undefined}>
+          <span className={`h-2 w-2 rounded-full ${DOT[dot]}`} aria-hidden="true" />
           {label}
-        </p>
+        </span>
         <Heading
           id={id}
-          className={`${level === 'h1' ? 'text-hero font-medium' : 'text-h2 font-medium'} text-balance`}
+          className={`mt-6 ${level === 'h1' ? 'text-display' : 'text-h2'} font-bold text-balance`}
         >
           {title}
         </Heading>
-        {lead && <p className="mt-5 max-w-prose-wide text-md text-muted">{lead}</p>}
+        {lead && <p className="mt-6 max-w-prose-wide text-md text-muted">{lead}</p>}
       </div>
       {link && (
         <div className="md:col-span-4 md:justify-self-end">
-          <Link href={link.href} className="link text-sm">
-            {link.label} →
+          <Link href={link.href} className="btn-outline btn-sm">
+            {link.label}
           </Link>
         </div>
       )}

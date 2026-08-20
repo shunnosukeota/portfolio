@@ -5,6 +5,7 @@ import { pageMetadata } from '@/lib/seo'
 import SectionHeading from '@/components/ui/SectionHeading'
 import AvailabilityBadge from '@/components/ui/AvailabilityBadge'
 import Reveal from '@/components/ui/Reveal'
+import { Blobs } from '@/components/ui/SplitText'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Contact — お問い合わせ・ご相談',
@@ -16,14 +17,16 @@ export const metadata: Metadata = pageMetadata({
 export default function ContactPage() {
   const { contact, availability } = SITE
   return (
-    <section className="py-16 lg:py-24">
-      <div className="mx-auto w-full max-w-content px-6 lg:px-16">
+    <section className="relative overflow-hidden py-16 lg:py-24">
+      <Blobs variant="top" />
+      <div className="relative mx-auto w-full max-w-content px-6 lg:px-16">
         <SectionHeading
           level="h1"
           id="contact-heading"
+          dot="ad"
           label="Contact"
-          title="まずは、相談から。"
-          lead={`メールか LINE でご連絡ください。通常${contact.responseTime}に返信します。初回相談は無料。要件が固まっていなくても大丈夫です。`}
+          title="要件は、まだなくて大丈夫です"
+          lead={`メールか LINE をください。だいたい${contact.responseTime}に返します。初回の相談は無料なので、まだ何も決まっていない段階でも構いません。`}
         />
 
         <div className="grid gap-12 lg:grid-cols-12">
@@ -32,7 +35,7 @@ export default function ContactPage() {
               <a href={mailtoHref()} className="btn-primary">
                 メールで相談する
               </a>
-              <a href={contact.line} target="_blank" rel="noopener noreferrer" className="btn-secondary">
+              <a href={contact.line} target="_blank" rel="noopener noreferrer" className="btn-outline">
                 LINE で相談する
               </a>
             </div>
@@ -88,7 +91,7 @@ export default function ContactPage() {
                   <span className="font-mono text-sm text-muted">{p.step}</span>
                   <div>
                     <div className="flex flex-wrap items-baseline justify-between gap-2">
-                      <h2 className="text-lg font-medium">{p.title}</h2>
+                      <h2 className="text-lg font-bold">{p.title}</h2>
                       <span className="font-mono text-xs text-muted">{p.duration}</span>
                     </div>
                     <p className="mt-2 text-sm text-muted">{p.description}</p>

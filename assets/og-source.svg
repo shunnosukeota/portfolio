@@ -5,8 +5,8 @@
   <!-- label -->
   <text x="72" y="214" font-family="'Geist Mono', 'SF Mono', Menlo, 'Courier New', monospace" font-size="20" letter-spacing="3" fill="#5a5a5a">IT CONSULTANT &amp; ENGINEER — SENDAI, JAPAN</text>
   <!-- title -->
-  <text x="68" y="310" font-family="'Hiragino Sans', 'Noto Sans JP', 'Helvetica Neue', sans-serif" font-size="61" font-weight="600" letter-spacing="-1.5" fill="#0a0a0a">Web・EC・クラウド・データ基盤を、</text>
-  <text x="68" y="392" font-family="'Hiragino Sans', 'Noto Sans JP', 'Helvetica Neue', sans-serif" font-size="61" font-weight="600" letter-spacing="-1.5" fill="#0a0a0a">企画から運用まで一人で通す。</text>
+  <text x="68" y="310" font-family="'Hiragino Sans', 'Noto Sans JP', 'Helvetica Neue', sans-serif" font-size="61" font-weight="600" letter-spacing="-1.5" fill="#0a0a0a">つくったあとを、設計する。</text>
+  <text x="68" y="392" font-family="'Hiragino Sans', 'Noto Sans JP', 'Helvetica Neue', sans-serif" font-size="42" font-weight="400" letter-spacing="-0.5" fill="#4a4a4a">Web・EC・クラウド・データ基盤・広告制作</text>
   <!-- footer -->
   <line x1="72" y1="506" x2="1128" y2="506" stroke="#0a0a0a" stroke-opacity="0.14" stroke-width="1.5"/>
   <text x="72" y="556" font-family="'Hiragino Sans', 'Noto Sans JP', 'Helvetica Neue', sans-serif" font-size="24" fill="#0a0a0a">太田 駿之介</text>

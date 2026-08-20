@@ -9,7 +9,6 @@ export const ZENN = {
   displayName: 'Shunnosuke Ohta',
   /** 現在の連載テーマ */
   seriesTitle: '【Snowflake - メタデータ管理】これからのメタデータ管理の話をしよう',
-  note: '所属企業のテックブログ（Zenn Publication）に寄稿。投稿は個人の見解に基づくものです。',
 } as const
 
 export type ZennArticle = {

@@ -66,7 +66,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
           <header className="grid gap-8 lg:grid-cols-12">
             <div className="lg:col-span-8">
               <p className="label">{work.category}</p>
-              <h1 className="mt-4 text-h2 font-medium text-balance">{work.title}</h1>
+              <h1 className="mt-4 text-h2 font-bold text-balance">{work.title}</h1>
               <p className="mt-5 max-w-prose-wide text-md text-muted">{work.summary}</p>
             </div>
             <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-6 text-sm lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
@@ -128,7 +128,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
                     height={g.height}
                     widths={[800]}
                     sizes="(min-width: 1024px) 540px, 100vw"
-                    className="overflow-hidden rounded-sm border border-line bg-surface"
+                    className="overflow-hidden rounded-xl border border-line bg-surface"
                     imgClassName="h-auto w-full"
                   />
                   {g.caption && <p className="mt-2 font-mono text-xs text-muted">{g.caption}</p>}
@@ -200,7 +200,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<Param
           </nav>
         </div>
       </article>
-      <ContactCta heading="似た課題をお持ちですか。まずはご相談ください。" />
+      <ContactCta heading="似たようなことで困っていませんか" />
     </>
   )
 }

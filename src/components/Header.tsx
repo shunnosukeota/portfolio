@@ -1,32 +1,67 @@
 'use client'
 
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAV, SITE } from '@/content/site'
 import { Wordmark } from '@/components/ui/Logo'
-import AvailabilityBadge from '@/components/ui/AvailabilityBadge'
 
 export default function Header() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const [overDark, setOverDark] = useState(false)
   const [open, setOpen] = useState(false)
-  const menuId = useId()
+  const bar = useRef<HTMLSpanElement>(null)
 
-  // スクロールで背景を backdrop-blur 化
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
+    // スクロール毎に getBoundingClientRect を呼ぶと強制リフローが起きて操作が重くなる。
+    // 暗い面の範囲とページ全長は先に一度だけ測っておき、以降は数値の比較だけで済ませる。
+    const darks = Array.from(document.querySelectorAll<HTMLElement>('.on-dark, [data-dark]'))
+    let ranges: [number, number][] = []
+    let max = 0
+    let ticking = false
+
+    const measure = () => {
+      const y = window.scrollY
+      ranges = darks.map((el) => {
+        const r = el.getBoundingClientRect()
+        return [r.top + y, r.top + y + r.height]
+      })
+      max = document.documentElement.scrollHeight - window.innerHeight
+    }
+
+    const update = () => {
+      ticking = false
+      const y = window.scrollY
+      setScrolled(y > 12)
+      // ヘッダーの中心が暗い面に重なっていれば白抜きにする
+      const mid = y + 38
+      setOverDark(ranges.some(([a, b]) => mid >= a && mid <= b))
+      if (bar.current) bar.current.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`
+    }
+
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(update)
+    }
+    const onResize = () => {
+      measure()
+      onScroll()
+    }
+
+    measure()
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
+    }
   }, [])
 
-  // ルート遷移でドロワーを閉じる
-  useEffect(() => {
-    setOpen(false)
-  }, [pathname])
+  useEffect(() => setOpen(false), [pathname])
 
-  // ドロワー表示中は背面スクロールを止め、Esc で閉じる
   useEffect(() => {
     if (!open) return
     const prev = document.body.style.overflow
@@ -40,103 +75,83 @@ export default function Header() {
   }, [open])
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
-  const solid = scrolled || open
 
   return (
     <>
-    <header
-      className={`fixed inset-x-0 top-0 z-50 h-header transition-colors duration-base ease-out ${
-        solid ? 'border-b border-line bg-bg/80 backdrop-blur-md' : 'border-b border-transparent bg-transparent'
-      }`}
-    >
-      <div className="mx-auto flex h-full w-full max-w-content items-center justify-between px-6 lg:px-16">
-        <Link href="/" className="flex items-center rounded-sm text-fg" aria-label={`${SITE.name} ホーム`}>
-          <Wordmark className="h-5 w-auto" />
-        </Link>
-
-        <nav aria-label="メインナビゲーション" className="hidden items-center gap-8 md:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-              className={`rounded-sm text-sm tracking-wide transition-colors duration-fast hover:text-fg ${
-                isActive(item.href) ? 'text-fg' : 'text-muted'
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Link href="/contact" className="btn-primary btn-sm">
-            お問い合わせ
-          </Link>
-        </nav>
-
-        <button
-          type="button"
-          className="-mr-2 flex h-10 w-10 items-center justify-center rounded-sm text-fg md:hidden"
-          aria-expanded={open}
-          aria-controls={menuId}
-          aria-label={open ? 'メニューを閉じる' : 'メニューを開く'}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-            {open ? (
-              <>
-                <path d="M4 4l12 12" />
-                <path d="M16 4L4 16" />
-              </>
-            ) : (
-              <>
-                <path d="M2 6h16" />
-                <path d="M2 14h16" />
-              </>
-            )}
-          </svg>
-        </button>
-      </div>
-    </header>
-
-      {/* SP ドロワー（リンクは絶対パス）。header の backdrop-filter が
-          fixed の包含ブロックにならないよう、header の外に置く */}
-      <div
-        id={menuId}
-        hidden={!open}
-        className="fixed inset-x-0 bottom-0 top-header z-40 overflow-y-auto bg-bg md:hidden"
+      <header
+        className={`fixed inset-x-0 top-0 z-50 h-header transition-all duration-base ease-out ${
+          overDark && !open ? 'over-dark' : ''
+        } ${scrolled || open ? 'border-b border-line bg-bg/85 backdrop-blur-xl' : 'border-b border-transparent'}`}
       >
-        <nav aria-label="モバイルナビゲーション" className="flex min-h-full flex-col px-6 pb-10 pt-6">
+        <div className="mx-auto flex h-full w-full max-w-content items-center justify-between px-6 md:px-10 lg:px-16">
+          <Link href="/" prefetch={false} className="flex items-center text-fg" aria-label={`${SITE.name} ホーム`}>
+            <Wordmark className="h-5 w-auto" />
+          </Link>
+
+          <nav aria-label="メインナビゲーション" className="hidden items-center gap-8 md:flex">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                className={`text-sm font-bold transition-colors duration-fast hover:text-brand ${
+                  isActive(item.href) ? 'text-brand' : 'text-fg'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link href="/contact" className="btn-primary btn-sm">
+              お問い合わせ
+            </Link>
+          </nav>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label={open ? 'メニューを閉じる' : 'メニューを開く'}
+            className="-mr-2 flex h-12 w-12 items-center justify-center rounded-full text-fg transition-colors duration-fast hover:bg-surface md:hidden"
+          >
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              {open ? (
+                <>
+                  <path d="M5 5l12 12" />
+                  <path d="M17 5L5 17" />
+                </>
+              ) : (
+                <>
+                  <path d="M2 7h18" />
+                  <path d="M2 15h18" />
+                </>
+              )}
+            </svg>
+          </button>
+        </div>
+        <span ref={bar} className="progress" aria-hidden="true" />
+      </header>
+
+      <div hidden={!open} className="fixed inset-x-0 bottom-0 top-header z-40 overflow-y-auto bg-bg md:hidden">
+        <nav aria-label="モバイルナビゲーション" className="flex min-h-full flex-col px-6 pb-12 pt-6">
           <ul className="divide-y divide-line border-y border-line">
             <li>
-              <Link href="/" className="flex items-center justify-between py-5 text-xl font-medium">
-                Home
+              <Link href="/" className="flex items-center justify-between py-5 text-xl font-bold">
+                ホーム
+                <span className="font-mono text-xs text-muted" aria-hidden="true">→</span>
               </Link>
             </li>
             {NAV.map((item) => (
               <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={isActive(item.href) ? 'page' : undefined}
-                  className="flex items-center justify-between py-5 text-xl font-medium"
-                >
+                <Link href={item.href} className="flex items-center justify-between py-5 text-xl font-bold">
                   {item.label}
-                  <span className="font-mono text-xs text-muted" aria-hidden="true">
-                    →
-                  </span>
+                  <span className="font-mono text-xs text-muted" aria-hidden="true">→</span>
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="mt-8 flex flex-col gap-4">
-            <Link href="/contact" className="btn-primary">
-              お問い合わせ
-            </Link>
-            <a href={`mailto:${SITE.contact.email}`} className="btn-secondary font-mono text-xs">
-              {SITE.contact.email}
-            </a>
-          </div>
-          <div className="mt-auto pt-10">
-            <AvailabilityBadge />
-          </div>
+          <Link href="/contact" className="btn-primary mt-8">
+            お問い合わせ
+          </Link>
         </nav>
       </div>
     </>

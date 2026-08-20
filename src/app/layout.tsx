@@ -6,20 +6,22 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { SITE } from '@/content/site'
 
-// 欧文：Inter Tight（400/500）／ 和文：Noto Sans JP（400/500 のサブセットを自前配信）／ 等幅：Geist Mono（ラベル・数値のみ）
+// 欧文：Inter Tight（400/700）／ 和文：Noto Sans JP（400/700 のサブセットを自前配信）／ 等幅：Geist Mono（ラベル・数値のみ）
+// ウェイトは 400 と 700 の2つに絞っている。中間の 500 を足すと和文だけで約 113KB 増えるため、
+// デザイン上は font-bold（700）で強調を作ること。
 // ※ Noto Sans JP を Google Fonts 経由で読むと日本語だけで約 40 リクエスト・800KB 超になるため、
 //    scripts/build-fonts.mjs でサイト内の使用文字にサブセット化した woff2（約 115KB/ウェイト）を使う。
 //    コンテンツに新しい漢字を追加したら `npm run fonts` を再実行すること。
 const sans = Inter_Tight({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400', '700'],
   variable: '--font-sans',
   display: 'swap',
 })
 const jp = localFont({
   src: [
     { path: '../fonts/NotoSansJP-400.subset.woff2', weight: '400', style: 'normal' },
-    { path: '../fonts/NotoSansJP-500.subset.woff2', weight: '500', style: 'normal' },
+    { path: '../fonts/NotoSansJP-700.subset.woff2', weight: '700', style: 'normal' },
   ],
   variable: '--font-jp',
   display: 'swap',
@@ -30,7 +32,7 @@ const jp = localFont({
 })
 const mono = Geist_Mono({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400'],
   variable: '--font-mono',
   display: 'swap',
 })
@@ -86,11 +88,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#fafaf9' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
+  colorScheme: 'light',
+  themeColor: '#ffffff',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -98,12 +97,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ja" className={`${sans.variable} ${jp.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         {/* JS が動く環境でのみスクロール連動モーションを有効化（JS 無効時は最初から表示） */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js-enabled')" }} />
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
       <body className="flex min-h-svh flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-sm focus:bg-fg focus:px-4 focus:py-2 focus:text-accent-fg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-sm focus:bg-fg focus:px-4 focus:py-2 focus:text-white"
         >
           本文へスキップ
         </a>

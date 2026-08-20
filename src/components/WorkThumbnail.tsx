@@ -16,7 +16,7 @@ export default function WorkThumbnail({
   if (thumbnail.type === 'diagram') {
     const Diagram = thumbnail.id === 'apparel-ec' ? ApparelEcDiagram : DataPlatformDiagram
     return (
-      <div className="aspect-16/10 w-full overflow-hidden rounded-sm border border-line bg-surface">
+      <div className="aspect-16/10 w-full overflow-hidden rounded-xl border border-line bg-surface">
         <Diagram title={thumbnail.alt} />
       </div>
     )
@@ -30,7 +30,7 @@ export default function WorkThumbnail({
       widths={[800]}
       sizes={sizes}
       priority={priority}
-      className="aspect-16/10 w-full overflow-hidden rounded-sm border border-line bg-surface"
+      className="aspect-16/10 w-full overflow-hidden rounded-xl border border-line bg-surface"
       imgClassName="img-thumb h-full w-full object-cover"
     />
   )

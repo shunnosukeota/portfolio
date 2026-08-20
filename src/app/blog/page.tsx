@@ -3,6 +3,7 @@ import { FEATURED_MENTIONS, ZENN } from '@/content/blog'
 import { fetchZennArticles, formatDate } from '@/lib/zenn'
 import { pageMetadata } from '@/lib/seo'
 import SectionHeading from '@/components/ui/SectionHeading'
+import { Blobs } from '@/components/ui/SplitText'
 import Reveal from '@/components/ui/Reveal'
 import ContactCta from '@/components/sections/ContactCta'
 
@@ -14,19 +15,21 @@ export const metadata: Metadata = pageMetadata({
 })
 
 export default async function BlogPage() {
-  const { articles, live } = await fetchZennArticles()
+  const { articles } = await fetchZennArticles()
   const totalLikes = articles.reduce((s, a) => s + a.likedCount, 0)
 
   return (
     <>
-      <section className="py-16 lg:py-24">
-        <div className="mx-auto w-full max-w-content px-6 lg:px-16">
+      <section className="relative overflow-hidden py-16 lg:py-24">
+        <Blobs variant="top" />
+        <div className="relative mx-auto w-full max-w-content px-6 lg:px-16">
           <SectionHeading
             level="h1"
             id="blog-heading"
+            dot="data"
             label="Blog"
-            title="つくって、確かめて、書く。"
-            lead="実務で検証した Snowflake・データ基盤まわりの知見を Zenn で発信しています。現在はメタデータ管理の連載を更新中です。"
+            title="試したことを書いています"
+            lead="Snowflake まわりで実際に試したことを Zenn に書いています。いまはメタデータ管理の連載を続けているところです。"
             link={{ href: ZENN.url, label: 'Zenn でフォローする' }}
           />
 
@@ -38,20 +41,20 @@ export default async function BlogPage() {
                   href={m.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group grid gap-4 rounded-sm border border-line-strong p-6 transition-colors duration-fast hover:border-fg md:grid-cols-12 md:items-center md:gap-8 md:p-8"
+                  className="group card card-hover grid gap-4 p-6 md:grid-cols-12 md:items-center md:gap-8 md:p-8"
                 >
                   <div className="md:col-span-2">
                     <span className="label">{m.label}</span>
                     <span className="mt-2 block font-mono text-xs text-muted">{m.date}</span>
                   </div>
                   <div className="md:col-span-8">
-                    <p className="text-h3 font-medium text-balance">{m.title}</p>
+                    <p className="text-h3 font-bold text-balance">{m.title}</p>
                     <p className="mt-2 text-sm text-muted">{m.description}</p>
                   </div>
                   <div className="md:col-span-2 md:text-right">
                     <span className="inline-flex items-center gap-2 font-mono text-xs text-muted transition-colors duration-fast group-hover:text-fg">
                       <span
-                        className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-line-strong"
+                        className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-line"
                         aria-hidden="true"
                       >
                         ▶
@@ -86,7 +89,7 @@ export default async function BlogPage() {
                         {a.emoji}
                       </span>
                       <span>
-                        <span className="block text-lg font-medium text-balance">{a.title}</span>
+                        <span className="block text-lg font-bold text-balance">{a.title}</span>
                         <span className="mt-2 flex flex-wrap gap-x-4 font-mono text-xs text-muted">
                           <time dateTime={a.publishedAt}>{formatDate(a.publishedAt)}</time>
                           <span>♥ {a.likedCount}</span>
@@ -97,17 +100,12 @@ export default async function BlogPage() {
                   </Reveal>
                 ))}
               </ol>
-              <p className="mt-4 text-xs text-muted">
-                {live ? '記事一覧はビルド時に Zenn から取得しています。' : '記事一覧は Zenn の公開記事をもとにしています。'}
-                {' '}
-                {ZENN.note}
-              </p>
             </div>
 
             <aside className="lg:col-span-3 lg:col-start-10">
               <Reveal>
                 <p className="label mb-4">Series</p>
-                <p className="text-sm font-medium">{ZENN.seriesTitle}</p>
+                <p className="text-sm font-bold">{ZENN.seriesTitle}</p>
                 <p className="mt-3 text-sm text-muted">
                   設計編 → 実装編（タグの伝播 / セマンティックビューの自動生成）と、AI を使ったメタデータ管理を段階的に検証しています。
                 </p>
@@ -119,7 +117,7 @@ export default async function BlogPage() {
           </div>
         </div>
       </section>
-      <ContactCta heading="データ基盤やメタデータ管理の相談も歓迎です。" />
+      <ContactCta heading="データ基盤の相談も歓迎です" />
     </>
   )
 }

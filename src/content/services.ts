@@ -1,85 +1,101 @@
 /**
- * Services（提供領域）。
+ * 事業紹介（Business）。
+ * color は tailwind のキー（web / ec / cloud / data / ad）。カード・タグ・アイコンの色に使われます。
  * 納期・費用レンジは目安です。TODO: 実際の単価に合わせて更新してください。
  */
+export type ServiceColor = 'web' | 'ec' | 'cloud' | 'data' | 'ad'
+
 export type Service = {
   id: string
+  color: ServiceColor
+  /** 事業名（短く） */
+  name: string
+  /** 英語表記 */
+  nameEn: string
   /** 成果ベースの見出し */
   title: string
-  /** 領域名（ラベル） */
-  category: string
-  /** 1〜2文の成果ベースの説明 */
+  /** 1〜2文の説明 */
   description: string
-  /** 対応範囲 */
+  /** できること */
   scope: string[]
   tags: string[]
-  /** 想定納期の目安 */
   delivery: string
-  /** 費用レンジの目安 */
   price: string
-  /** 代表的な実績（works の slug） */
   workSlug?: string
 }
 
 export const SERVICES: Service[] = [
   {
     id: 'web',
-    category: 'Web / アプリ開発',
-    title: '運用しやすく、速いWebを。企画から公開まで。',
+    color: 'web',
+    name: 'Web・アプリ開発',
+    nameEn: 'Web Development',
+    title: 'あとから自分たちで直せるサイトを',
     description:
-      'コーポレートサイト・サービスサイト・業務アプリを、要件定義から設計・実装・公開まで一貫して担当します。CMS（WordPress）での更新運用や、Next.js による高速な静的サイトにも対応します。',
+      'コーポレートサイトや業務アプリを、要件を詰めるところから公開まで担当します。担当者が自分で更新できるようにするなら WordPress、表示速度を優先するなら Next.js。どちらがいいかは、更新の頻度と社内で誰が触るのかを聞いてから決めています。',
     scope: ['要件定義・情報設計', 'UI実装（レスポンシブ）', 'CMS構築 / ヘッドレス化', '公開・保守'],
-    tags: ['Next.js', 'TypeScript', 'WordPress', 'Laravel', 'Tailwind CSS'],
+    tags: ['Next.js', 'TypeScript', 'WordPress', 'Laravel'],
     delivery: '1週間〜',
     price: '5万円〜',
     workSlug: 'drawers9',
   },
   {
     id: 'ec',
-    category: 'EC構築・運用（Salesforce Commerce Cloud）',
-    title: '止まらないECを、設計から運用まで。',
+    color: 'ec',
+    name: 'EC構築・運用',
+    nameEn: 'E-Commerce',
+    title: '注文が止まらないことを最優先に',
     description:
-      'SFCC（Salesforce Commerce Cloud）によるECの新規構築・機能改修・保守運用を、一次請け SIer のプロジェクトリーダー／マネージャーとして経験。決済（AmazonPay・PayPay・3Dセキュア）・CRM・店舗在庫などの外部連携を、注文から配送までの業務フローを踏まえて設計します。',
+      'Salesforce Commerce Cloud のECを、一次請け SIer のPL／PMとして4社ぶん担当してきました。決済や在庫の連携は、画面より先に「注文が入ってから商品が届くまで」を聞きます。ここを外すと、あとから必ず手作業が増えるからです。',
     scope: ['SFRA カスタマイズ', '決済・外部API連携', 'プロモーション / カタログ設計', '運用保守・障害対応'],
-    tags: ['SFCC', 'SFRA', 'OCAPI / SCAPI', 'JavaScript', '決済連携'],
+    tags: ['SFCC', 'SFRA', 'OCAPI / SCAPI', '決済連携'],
     delivery: '1ヶ月〜（改修は1週間〜）',
     price: '50万円〜 / 月額運用 要相談',
     workSlug: 'sfcc-ec',
   },
   {
     id: 'cloud',
-    category: 'クラウドインフラ（AWS）',
-    title: '安全で、無駄のないAWS環境を。',
+    color: 'cloud',
+    name: 'クラウド構築',
+    nameEn: 'Cloud & Infra',
+    title: '必要なぶんだけのAWS構成に',
     description:
-      'AWS 認定ソリューションアーキテクトとして、セキュリティ・可用性・コストのバランスを取った構成を設計します。サーバーレス配信（S3 + CloudFront）から EC2、GitHub Actions による CI/CD まで対応します。',
+      'AWS 認定ソリューションアーキテクトとして構成を設計します。とりあえず大きめに作って毎月払い続ける、という状態は避けたいので、想定アクセス数と「止まったら何が困るか」を先に確認してから決めます。',
     scope: ['構成設計・見積', 'S3 / CloudFront / Lambda', 'EC2 / RDS / VPC', 'CI/CD・監視・コスト最適化'],
-    tags: ['AWS', 'CloudFront', 'Lambda', 'IAM', 'GitHub Actions'],
+    tags: ['AWS', 'CloudFront', 'Lambda', 'GitHub Actions'],
     delivery: '1週間〜',
     price: '15万円〜',
     workSlug: 'stendear-site',
   },
   {
     id: 'data',
-    category: 'データ基盤・ETL開発（Snowflake / Databricks）',
-    title: '散らばったデータを、意思決定に使える形に。',
+    color: 'data',
+    name: 'データ基盤構築',
+    nameEn: 'Data Platform',
+    title: 'あちこちにあるデータを、一か所に',
     description:
-      '業務データの収集・加工・蓄積から分析環境の整備まで。Snowflake / Databricks を用いたデータ基盤構築と ETL/ELT パイプライン開発、AI を活用したメタデータ管理、Streamlit による業務自動化まで対応します。',
-    scope: ['データ基盤の設計', 'ETL / ELT パイプライン開発', 'メタデータ管理・データモデリング', '品質監視・運用・CI/CD'],
-    tags: ['Snowflake', 'Databricks', 'Python', 'SQL', 'AWS'],
+      'Snowflake や Databricks でデータ基盤をつくり、ETL/ELT を書きます。本業では製造ログを扱う基盤の構築・拡張を担当中で、AI を使ったメタデータ管理や Streamlit での自動化も、実際に手を動かしながら試しています。',
+    scope: ['データ基盤の設計', 'ETL / ELT パイプライン開発', 'メタデータ管理・モデリング', '品質監視・運用・CI/CD'],
+    tags: ['Snowflake', 'Databricks', 'Python', 'SQL'],
     delivery: '1ヶ月〜',
     price: '40万円〜',
     workSlug: 'data-platform',
   },
   {
     id: 'ad',
-    category: '広告・販促物の制作（チラシ / バナー / LP）',
-    title: '読まれて、問い合わせにつながる広告を。',
+    color: 'ad',
+    name: '広告・販促物の制作',
+    nameEn: 'Advertising',
+    title: '読み飛ばされないチラシを',
     description:
-      '新サービス告知のチラシ（A4両面）などの紙媒体から、Webバナー・ランディングページまで。「誰に・何を・いくらで」を一目で伝える構成とコピーから、デザイン・入稿データの作成まで一貫して対応します。',
-    scope: ['構成・コピーライティング', 'チラシ / フライヤーのデザイン', 'Webバナー・LP', '入稿データ作成・修正対応'],
-    tags: ['チラシ', 'フライヤー', 'バナー', 'LP', 'コピー'],
+      'A4のチラシから Web バナー、LP まで。デザインの前に、誰に何をいくらで伝えるのかを決めるところから入ります。足場工事会社さんの新サービス告知では、表面を料金と施工事例だけに絞りました。印刷所への入稿データまで作ります。',
+    scope: ['構成・コピーライティング', 'チラシ / フライヤーのデザイン', 'Webバナー・LP', '入稿データ作成'],
+    tags: ['チラシ', 'バナー', 'LP', 'コピー'],
     delivery: '1週間〜',
     price: 'A4チラシ 5万円〜 / バナー 1万円〜',
     workSlug: 'godai-flyer',
   },
 ]
+
+/** 事業の並びを1行で言い切るコピー（Hero やメタで使う） */
+export const BUSINESS_SUMMARY = 'Web・EC・クラウド・データ基盤・広告制作'

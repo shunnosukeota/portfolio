@@ -22,11 +22,11 @@ export default function WorkCard({ work, priority = false }: { work: Work; prior
             </>
           )}
         </div>
-        <h3 className="mt-3 text-h3 font-medium text-balance">
+        <h2 className="mt-3 text-h3 font-bold text-balance">
           <Link href={href} className="transition-colors duration-fast hover:text-muted">
             {work.title}
           </Link>
-        </h3>
+        </h2>
         <p className="mt-2 text-xs text-muted">{work.client}</p>
         <dl className="mt-5 grid gap-4 border-t border-line pt-5 text-sm">
           <div className="grid grid-cols-meta gap-3">
