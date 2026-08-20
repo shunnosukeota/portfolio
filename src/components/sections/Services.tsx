@@ -84,11 +84,15 @@ export default function Services() {
           }
         />
 
-        <ol className="mt-14 grid gap-6 md:grid-cols-2 lg:mt-20 lg:grid-cols-3">
+        {/*
+          モバイルは縦に長くなりすぎるので横の棚にする。
+          Container の左右余白ぶんだけ外に広げ、画面端まで送れるようにしている。
+        */}
+        <ol className="no-scrollbar -mx-6 mt-14 flex snap-x snap-mandatory scroll-pl-6 gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:snap-none md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:mt-20 lg:grid-cols-3">
           {SERVICES.map((s, i) => {
             const c = C[s.color]
             return (
-              <Reveal as="li" key={s.id} delay={(i % 3) * 90}>
+              <Reveal as="li" key={s.id} delay={(i % 3) * 90} className="w-card shrink-0 snap-start md:w-auto">
                 <article className={`group card card-hover relative h-full overflow-hidden ${c.ring}`}>
                   {/* 色の帯 */}
                   <div className={`h-2 w-full ${c.bg}`} aria-hidden="true" />
@@ -148,7 +152,7 @@ export default function Services() {
           })}
 
           {/* 最後のマスは相談への導線に */}
-          <Reveal as="li" delay={180}>
+          <Reveal as="li" delay={180} className="w-card shrink-0 snap-start md:w-auto">
             <div className="card card-hover flex h-full flex-col justify-center gap-5 bg-fg p-8 text-center text-white">
               <p className="text-xl font-bold text-balance">困りごとだけ決まっていれば十分です</p>
               <p className="text-sm text-white/70">

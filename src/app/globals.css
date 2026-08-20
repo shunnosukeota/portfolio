@@ -524,3 +524,14 @@
   }
 
 }
+
+@layer utilities {
+  /* 横スクロールの棚。バーは出さず、スワイプで送れることは覗くカードで示す */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

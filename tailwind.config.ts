@@ -99,6 +99,8 @@ const config: Config = {
       },
       minHeight: { hero: 'calc(100svh - var(--header-h))' },
       height: { deco: '720px' },
+      /** 横スクロール時のカード幅。次のカードが少し覗く幅にして、スワイプできると分かるようにする */
+      width: { card: 'min(82vw, 380px)' },
       borderRadius: {
         none: '0',
         sm: '4px',

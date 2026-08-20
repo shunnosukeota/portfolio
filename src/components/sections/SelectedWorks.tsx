@@ -26,9 +26,9 @@ export default function SelectedWorks() {
           link={{ href: '/works', label: 'すべての実績を見る' }}
         />
 
-        <div className="mt-14 grid gap-8 lg:mt-20 lg:grid-cols-2">
+        <div className="no-scrollbar -mx-6 mt-14 flex snap-x snap-mandatory scroll-pl-6 gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:snap-none md:grid-cols-2 md:gap-8 md:overflow-visible md:px-0 md:pb-0 lg:mt-20">
           {FEATURED_WORKS.map((w, i) => (
-            <Reveal key={w.slug} delay={(i % 2) * 90}>
+            <Reveal key={w.slug} delay={(i % 2) * 90} className="w-card shrink-0 snap-start md:w-auto">
               <article className="group card card-hover h-full overflow-hidden">
                 <Link href={`/works/${w.slug}`} className="block">
                   <div className="zoomable relative border-b border-line">
