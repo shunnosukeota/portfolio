@@ -46,7 +46,7 @@ export const SERVICES: Service[] = [
     nameEn: 'E-Commerce',
     title: '注文が止まらないことを最優先に',
     description:
-      'Salesforce Commerce Cloud のECを、一次請け SIer のPL／PMとして4社ぶん担当してきました。決済や在庫の連携は、画面より先に「注文が入ってから商品が届くまで」を聞きます。ここを外すと、あとから必ず手作業が増えるからです。',
+      'Salesforce Commerce Cloud のECを、一次請け SIer で4社ぶん担当してきました。決済や在庫の連携は、画面より先に「注文が入ってから商品が届くまで」を聞きます。ここを外すと、あとから必ず手作業が増えるからです。',
     scope: ['SFRA カスタマイズ', '決済・外部API連携', 'プロモーション / カタログ設計', '運用保守・障害対応'],
     tags: ['SFCC', 'SFRA', 'OCAPI / SCAPI', '決済連携'],
     delivery: '1ヶ月〜（改修は1週間〜）',

@@ -31,7 +31,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
   {
     id: 'ec',
     title: 'EC / Salesforce',
-    description: '一次請け SIer で 4 社のECを PL/PM として担当。業務フローを踏まえた設計が強みです。',
+    description: '一次請け SIer で 4 社のECを担当。業務フローを踏まえた設計が強みです。',
     skills: [
       { name: 'Salesforce Commerce Cloud (SFRA)', level: 3, years: '2年7ヶ月', note: '認定 B2C Commerce Developer' },
       { name: 'OCAPI / SCAPI・外部API連携（Yext / POS 在庫 / CRM）', level: 3, years: '2年+' },
@@ -90,7 +90,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
     description: '技術だけでなく、顧客折衝・要件定義・見積・進行管理まで任せられます。',
     skills: [
       { name: '提案・見積・要件定義・基本設計', level: 3, years: '2年+' },
-      { name: '顧客折衝・進行管理・月次定例（PL/PM）', level: 3, years: '2年' },
+      { name: '顧客折衝・進行管理・月次定例', level: 3, years: '2年' },
       { name: 'テスト計画・リリース管理', level: 2 },
       { name: 'ドキュメント整備・運用引き継ぎ', level: 2 },
     ],

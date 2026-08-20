@@ -30,8 +30,8 @@ export const CAREER: CareerItem[] = [
     title: 'IT業界へ。EC開発のSIerで入社1年経たずでプロジェクトリーダーに',
     org: 'デジタルコマース領域の一次請け SIer（仙台）',
     description:
-      'Salesforce Commerce Cloud によるEC開発に従事。浄水器メーカーの新規構築を皮切りに、アパレル・ジュエリー・スポーツアパレルの各ECで機能改修と保守運用を担当。入社1年経たずでプロジェクトリーダー、その後プロジェクトマネージャーとして 3〜4 名のチームを率い、提案・見積から保守運用まで複数案件を並行してリード。',
-    tags: ['SFCC', 'PL / PM', '顧客折衝', '決済・CRM連携'],
+      'Salesforce Commerce Cloud によるEC開発に従事。浄水器メーカーの新規構築を皮切りに、アパレル・ジュエリー・スポーツアパレルの各ECで機能改修と保守運用を担当。入社1年経たずでプロジェクトリーダーになり、3〜4 名のチームで提案・見積から保守運用まで複数案件を並行して進めました。',
+    tags: ['SFCC', 'プロジェクトリーダー', '顧客折衝', '決済・CRM連携'],
   },
   {
     period: '2025.08 –',
@@ -68,5 +68,4 @@ export const PERSONAL_FACTS: PersonalFact[] = [
   { label: '趣味', value: 'ランニング', href: 'https://www.strava.com/athletes/205299491', linkLabel: 'Strava' },
   { label: 'スペック', value: 'Marathon: 2:56:53 / 100km: 9:54:11' },
   { label: '推し', value: 'UVERworld' },
-  { label: '座右の銘', value: '「やって確かめる」' },
 ]

@@ -76,6 +76,20 @@ export default function Header() {
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
 
+  /**
+   * いま開いているページのリンクを押したときの処理。
+   * Next.js の Link は同一ルートだと何も起きず「押しても反応しない」ように見えるので、
+   * その場合だけ通常のページ遷移に切り替える。
+   */
+  const onNavClick = (href: string) => (e: React.MouseEvent) => {
+    if (pathname !== href) return
+    // 新しいタブで開く操作は邪魔しない
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
+    e.preventDefault()
+    setOpen(false)
+    window.location.href = href
+  }
+
   return (
     <>
       <header
@@ -84,7 +98,13 @@ export default function Header() {
         } ${scrolled || open ? 'border-b border-line bg-bg/85 backdrop-blur-xl' : 'border-b border-transparent'}`}
       >
         <div className="mx-auto flex h-full w-full max-w-content items-center justify-between px-6 md:px-10 lg:px-16">
-          <Link href="/" prefetch={false} className="flex items-center text-fg" aria-label={`${SITE.name} ホーム`}>
+          <Link
+            href="/"
+            prefetch={false}
+            onClick={onNavClick('/')}
+            className="flex items-center text-fg"
+            aria-label={`${SITE.name} ホーム`}
+          >
             <Wordmark className="h-5 w-auto" />
           </Link>
 
@@ -94,6 +114,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? 'page' : undefined}
+                onClick={onNavClick(item.href)}
                 className={`text-sm font-bold transition-colors duration-fast hover:text-brand ${
                   isActive(item.href) ? 'text-brand' : 'text-fg'
                 }`}
@@ -101,7 +122,7 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link href="/contact" className="btn-primary btn-sm">
+            <Link href="/contact" onClick={onNavClick('/contact')} className="btn-primary btn-sm">
               お問い合わせ
             </Link>
           </nav>
@@ -135,21 +156,25 @@ export default function Header() {
         <nav aria-label="モバイルナビゲーション" className="flex min-h-full flex-col px-6 pb-12 pt-6">
           <ul className="divide-y divide-line border-y border-line">
             <li>
-              <Link href="/" className="flex items-center justify-between py-5 text-xl font-bold">
+              <Link href="/" onClick={onNavClick('/')} className="flex items-center justify-between py-5 text-xl font-bold">
                 ホーム
                 <span className="font-mono text-xs text-muted" aria-hidden="true">→</span>
               </Link>
             </li>
             {NAV.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="flex items-center justify-between py-5 text-xl font-bold">
+                <Link
+                  href={item.href}
+                  onClick={onNavClick(item.href)}
+                  className="flex items-center justify-between py-5 text-xl font-bold"
+                >
                   {item.label}
                   <span className="font-mono text-xs text-muted" aria-hidden="true">→</span>
                 </Link>
               </li>
             ))}
           </ul>
-          <Link href="/contact" className="btn-primary mt-8">
+          <Link href="/contact" onClick={onNavClick('/contact')} className="btn-primary mt-8">
             お問い合わせ
           </Link>
         </nav>

@@ -14,7 +14,7 @@ import ContactCta from '@/components/sections/ContactCta'
 export const metadata: Metadata = pageMetadata({
   title: 'About — 太田駿之介のプロフィールと経歴',
   description:
-    '宮城県仙台市のITコンサルタント／エンジニア 太田駿之介のプロフィール。高専（建築）から建設、IT（ECのPL/PM）、外資系コンサルティングファームのデータエンジニアへ。ブランド Stendear の由来、経歴、資格、そして少しの遊び心。',
+    '宮城県仙台市のITコンサルタント／エンジニア 太田駿之介のプロフィール。高専（建築）から建設、IT（ECの開発・進行管理）、外資系コンサルティングファームのデータエンジニアへ。ブランド Stendear の由来、経歴、資格、そして少しの遊び心。',
   path: '/about',
   type: 'article',
 })
