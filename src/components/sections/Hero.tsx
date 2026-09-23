@@ -97,9 +97,9 @@ export default function Hero() {
               <Picture
                 src="/images/hero/portrait"
                 alt={`${SITE.owner.name}のポートレート`}
-                width={336}
-                height={448}
-                widths={[168]}
+                width={480}
+                height={640}
+                widths={[240]}
                 sizes="160px"
                 priority
                 imgClassName="aspect-3/4 w-full object-cover"

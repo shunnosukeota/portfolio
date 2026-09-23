@@ -116,13 +116,13 @@ async function main() {
     widths: [800],
   })
 
-  // ヒーローでは小さく添えるだけなので縦位置で切る。
-  // 元が 672x448 なので 336x448 までは拡大なしで取れる。
+  // ヒーローでは 160px 幅で小さく添えるだけだが、高解像度の画面でも粗くならないよう
+  // 3 倍の 480px まで用意する。元が 1500x2000（3:4）なので拡大は起きない。
   console.log('▶ Hero portrait (3:4)')
   await writeSet(
-    sharp(path.join(SRC, 'hero-office.jpg')).resize({ width: 336, height: 448, fit: 'cover', position: 'center' }),
+    sharp(path.join(SRC, 'hero-portrait.jpg')).resize({ width: 480, height: 640, fit: 'cover', position: 'center' }),
     'images/hero/portrait',
-    { widths: [168] },
+    { widths: [240] },
   )
 
   console.log('▶ About photos')
